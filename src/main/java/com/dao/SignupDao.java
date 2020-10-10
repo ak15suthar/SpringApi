@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.bean.SignupBean;
+import com.bean.UserBean;
 
 @Repository
 public class SignupDao {
@@ -17,22 +17,22 @@ public class SignupDao {
 	@Autowired
 	JdbcTemplate stmt;
 
-	public void insertSignup(SignupBean signupBean) {
+	public void insertSignup(UserBean signupBean) {
 		stmt.update("insert into users (email,password,firstname,lastname,gender,roleid) values(?,?,?,?,?,?)",
 				signupBean.getEmail(), signupBean.getPassword(), signupBean.getFirstName(), signupBean.getLastName(),
 				signupBean.getGender(), signupBean.getRoleId());
 
 	}
 
-	public List<SignupBean> listSignup() {
+	public List<UserBean> listSignup() {
 
-		List<SignupBean> signupBean = stmt.query("select * from users",
-				BeanPropertyRowMapper.newInstance(SignupBean.class));
+		List<UserBean> signupBean = stmt.query("select * from users",
+				BeanPropertyRowMapper.newInstance(UserBean.class));
 
 		return signupBean;
 	}
 
-	public void updateSignup(SignupBean signupBean) {
+	public void updateSignup(UserBean signupBean) {
 		stmt.update(
 				"update users set email = ?,password = ?,firstname = ?,lastname = ?,gender = ?,roleid = ? where userid = ?",
 				signupBean.getEmail(), signupBean.getPassword(), signupBean.getFirstName(), signupBean.getLastName(),
@@ -45,10 +45,10 @@ public class SignupDao {
 
 	}
 
-	public SignupBean login(String email, String password) {
+	public UserBean login(String email, String password) {
 
-		SignupBean signupBean = stmt.queryForObject("select * from users where email=? and password=?",
-				new Object[] {email,password}, BeanPropertyRowMapper.newInstance(SignupBean.class));
+		UserBean signupBean = stmt.queryForObject("select * from users where email=? and password=?",
+				new Object[] {email,password}, BeanPropertyRowMapper.newInstance(UserBean.class));
 
 		return signupBean;
 	}

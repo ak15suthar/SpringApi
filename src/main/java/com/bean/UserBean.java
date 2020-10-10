@@ -1,6 +1,6 @@
 package com.bean;
 
-public class SignupBean {
+public class UserBean {
 
 	int userId;
 	String email;

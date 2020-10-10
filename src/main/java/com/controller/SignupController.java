@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bean.LoginBean;
 import com.bean.ResponseBean;
-import com.bean.SignupBean;
+import com.bean.UserBean;
 import com.dao.SignupDao;
 
 @RestController
@@ -24,11 +24,11 @@ public class SignupController {
 	
 	
 	@PostMapping("/login")
-	public ResponseBean<SignupBean> login(@RequestBody LoginBean loginBean){
+	public ResponseBean<UserBean> login(@RequestBody LoginBean loginBean){
 		
-		ResponseBean<SignupBean> responseBean = new ResponseBean<>();
+		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 			
-		SignupBean signupBean = signupDao.login(loginBean.getEmail(),loginBean.getPassword());
+		UserBean signupBean = signupDao.login(loginBean.getEmail(),loginBean.getPassword());
 		
 		responseBean.setData(signupBean);
 		responseBean.setMsg("Login Successfully!!");
@@ -38,11 +38,11 @@ public class SignupController {
 	}
 	
 	@PostMapping("/addSignup")
-	public ResponseBean<SignupBean> addSignup(@RequestBody SignupBean signupBean){
+	public ResponseBean<UserBean> addSignup(@RequestBody UserBean signupBean){
 		
 		signupDao.insertSignup(signupBean);
 		
-		ResponseBean<SignupBean> responseBean = new ResponseBean<>();
+		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 		
 		responseBean.setData(signupBean);
 		responseBean.setMsg("Signup Inserted!!");
@@ -52,11 +52,11 @@ public class SignupController {
 	}
 	
 	@GetMapping("/listSignup")
-	public ResponseBean<List<SignupBean>> listSignup(){
+	public ResponseBean<List<UserBean>> listSignup(){
 		
-		List<SignupBean> signupBean = signupDao.listSignup();
+		List<UserBean> signupBean = signupDao.listSignup();
 		
-		ResponseBean<List<SignupBean>> responseBean = new ResponseBean<>();
+		ResponseBean<List<UserBean>> responseBean = new ResponseBean<>();
 		
 		responseBean.setData(signupBean);
 		responseBean.setMsg("Signup List!!");
@@ -66,11 +66,11 @@ public class SignupController {
 	}
 	
 	@PutMapping("updateSignup")
-	public ResponseBean<SignupBean> updateSignup(SignupBean signupBean){
+	public ResponseBean<UserBean> updateSignup(UserBean signupBean){
 		
 		signupDao.updateSignup(signupBean);
 		
-		ResponseBean<SignupBean> responseBean = new ResponseBean<>();
+		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 		responseBean.setData(signupBean);
 		responseBean.setMsg("Signup Updated!!");
 		responseBean.setStatus(201);
@@ -79,11 +79,11 @@ public class SignupController {
 	}
 	
 	@DeleteMapping("deleteSignup/{userId}")
-	public ResponseBean<SignupBean> deleteSignup(@PathVariable("userId") int userId){
+	public ResponseBean<UserBean> deleteSignup(@PathVariable("userId") int userId){
 		
 		signupDao.deleteSignup(userId);
 		
-		ResponseBean<SignupBean> responseBean = new ResponseBean<>();
+		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 		
 		responseBean.setMsg("Signup Deleted!!");
 		responseBean.setStatus(201);
