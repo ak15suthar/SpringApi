@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bean.ResponseBean;
@@ -21,7 +22,7 @@ public class RoleController {
 	RoleDao roleDao;
 	
 	@PostMapping("/addRole")
-	public ResponseBean<RoleBean> addRole(RoleBean roleBean){
+	public ResponseBean<RoleBean> addRole(@RequestBody RoleBean roleBean){
 		roleDao.insertRole(roleBean);
 		
 		ResponseBean<RoleBean> responseBean = new ResponseBean<>();
