@@ -2,26 +2,26 @@ package com.bean;
 
 public class DoctorProfileBean extends UserBean {
 
+
 	int doctorProfileId;
-	int userId;
+	int docProfileId;
 	String qualification;
 	String specialization;
 	int experience_in_year;
 	String profile_pic;
 	String about;
 	String registrationNo;
-	
 	public int getDoctorProfileId() {
 		return doctorProfileId;
 	}
 	public void setDoctorProfileId(int doctorProfileId) {
 		this.doctorProfileId = doctorProfileId;
 	}
-	public int getUserId() {
-		return userId;
+	public int getDocProfileId() {
+		return docProfileId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setDocProfileId(int docProfileId) {
+		this.docProfileId = docProfileId;
 	}
 	public String getQualification() {
 		return qualification;
@@ -59,5 +59,7 @@ public class DoctorProfileBean extends UserBean {
 	public void setRegistrationNo(String registrationNo) {
 		this.registrationNo = registrationNo;
 	}
+
 	
+
 }

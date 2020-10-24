@@ -24,99 +24,97 @@ public class SessionController {
 	
 	@Autowired
 	SessionDao sessionDao;
-	
+
 	@Autowired
-	OtpService otpService;
-	
+	OtpService OtpService;
 	@Autowired
-	MailerService mailService;
-	
+	MailerService mailerService;
+
 	@PostMapping("/login")
-	public ResponseBean<UserBean> login(@RequestBody LoginBean loginBean){
-		
+	public ResponseBean<UserBean> login(@RequestBody LoginBean loginBean) {
+
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
-			
-		UserBean userBean = sessionDao.login(loginBean.getEmail(),loginBean.getPassword());
-		
-		responseBean.setData(userBean);
+
+		UserBean signupBean = sessionDao.login(loginBean.getEmail(), loginBean.getPassword());
+
+		responseBean.setData(signupBean);
 		responseBean.setMsg("Login Successfully!!");
 		responseBean.setStatus(200);
-		
+
 		return responseBean;
 	}
-	
+
 	@PostMapping("/signup")
-	public ResponseBean<UserBean> signup(@RequestBody UserBean userBean){
-		
-		userBean.setOtp(otpService.generateOtp());
-		mailService.sendOtpForUserVerification(userBean);
+	public ResponseBean<UserBean> signup(@RequestBody UserBean userBean) {
+
+		userBean.setOtp(OtpService.generateOtp());
+		mailerService.sendOtpForUserVerification(userBean);
 		sessionDao.insertUser(userBean);
-		
+
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
-		
+
 		responseBean.setData(userBean);
-		responseBean.setMsg("Signup Inserted!!");
+		responseBean.setMsg("user successfully signup!!");
 		responseBean.setStatus(200);
-		
+
 		return responseBean;
 	}
-	
-	@PostMapping("/doctorSignup")
-	public ResponseBean<UserBean> doctorSignup(@RequestBody DoctorProfileBean doctorProfileBean){
-		
+
+	@PostMapping("/doctorsignup")
+	public ResponseBean<UserBean> doctorSignup(@RequestBody DoctorProfileBean doctorProfileBean) {
+
 		doctorProfileBean.setStatus(UserBean.KYC_DOCTOR);
-		doctorProfileBean.setStatusReason("Your KYC is pending Our Team Will Contact You Soon...");
-		mailService.sendDoctorRegisterMail(doctorProfileBean);
+		doctorProfileBean.setStatusReason("Your KYS is pending Our Team Will Contact You Soon..");	
+		mailerService.sendDoctorRegisterMail(doctorProfileBean);
+		
 		
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
-		
-		sessionDao.addDoctorProfile(doctorProfileBean);
-		
+
 		responseBean.setData(doctorProfileBean);
-		responseBean.setMsg("Doctor Inserted Successfully!!");
+		responseBean.setMsg("user successfully signup!!");
 		responseBean.setStatus(200);
-		
+
 		return responseBean;
 	}
-	
+
 	@GetMapping("/listSignup")
-	public ResponseBean<List<UserBean>> listSignup(){
-		
-		List<UserBean> userBean = sessionDao.listSignup();
-		
+	public ResponseBean<List<UserBean>> listSignup() {
+
+		List<UserBean> signupBean = sessionDao.listSignup();
+
 		ResponseBean<List<UserBean>> responseBean = new ResponseBean<>();
-		
-		responseBean.setData(userBean);
+
+		responseBean.setData(signupBean);
 		responseBean.setMsg("Signup List!!");
 		responseBean.setStatus(200);
-		
+
 		return responseBean;
 	}
-	
-	@PutMapping("/updateSignup")
-	public ResponseBean<UserBean> updateSignup(UserBean userBean){
-		
-		sessionDao.updateSignup(userBean);
-		
+
+	@PutMapping("updateSignup")
+	public ResponseBean<UserBean> updateSignup(UserBean signupBean) {
+
+		sessionDao.updateSignup(signupBean);
+
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
-		responseBean.setData(userBean);
+		responseBean.setData(signupBean);
 		responseBean.setMsg("Signup Updated!!");
 		responseBean.setStatus(201);
-		
+
 		return responseBean;
 	}
-	
-	@DeleteMapping("/deleteSignup/{userId}")
-	public ResponseBean<UserBean> deleteSignup(@PathVariable("userId") int userId){
-		
+
+	@DeleteMapping("deleteSignup/{userId}")
+	public ResponseBean<UserBean> deleteSignup(@PathVariable("userId") int userId) {
+
 		sessionDao.deleteSignup(userId);
-		
+
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
-		
+
 		responseBean.setMsg("Signup Deleted!!");
 		responseBean.setStatus(201);
-		
+
 		return responseBean;
-		
+
 	}
 }
