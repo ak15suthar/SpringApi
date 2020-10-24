@@ -1,6 +1,6 @@
 package com.bean;
 
-public class SignupBean {
+public class UserBean {
 
 	int userId;
 	String email;
@@ -9,7 +9,12 @@ public class SignupBean {
 	String lastName;
 	String gender;
 	int roleId;
+	int status;
+	String statusReason;
+	String otp;
 
+	public static final int ACTIVE = 1, PENDING = 2, DISABLE = 3, PAUSE = 4, KYC_DOCTOR = 5;
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -51,6 +56,24 @@ public class SignupBean {
 	}
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public String getStatusReason() {
+		return statusReason;
+	}
+	public void setStatusReason(String statusReason) {
+		this.statusReason = statusReason;
+	}
+	public String getOtp() {
+		return otp;
+	}
+	public void setOtp(String otp) {
+		this.otp = otp;
 	}
 	
 		
