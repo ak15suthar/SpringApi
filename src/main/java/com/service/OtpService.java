@@ -2,7 +2,7 @@ package com.service;
 
 import org.springframework.stereotype.Service;
 
-@Service
+@Service(value = "OtpService2")
 public class OtpService {
 	final static int otpLength = 5;
 	

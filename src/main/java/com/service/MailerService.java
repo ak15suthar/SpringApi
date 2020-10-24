@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.bean.DoctorProfileBean;
 import com.bean.UserBean;
 
-@Service
+@Service(value = "MailerService2")
 public class MailerService {
 
 	public void sendOtpForUserVerification(UserBean userBean) {
