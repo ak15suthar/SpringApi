@@ -92,7 +92,7 @@ public class SessionController {
 		return responseBean;
 	}
 
-	@PutMapping("updateSignup")
+	@PutMapping("/updateSignup")
 	public ResponseBean<UserBean> updateSignup(UserBean signupBean) {
 
 		sessionDao.updateSignup(signupBean);
@@ -105,7 +105,7 @@ public class SessionController {
 		return responseBean;
 	}
 
-	@DeleteMapping("deleteSignup/{userId}")
+	@DeleteMapping("/deleteSignup/{userId}")
 	public ResponseBean<UserBean> deleteSignup(@PathVariable("userId") int userId) {
 
 		sessionDao.deleteSignup(userId);
