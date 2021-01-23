@@ -43,7 +43,7 @@ public class PharmacyDao {
 	}
 
 	public void deletePharmacy(int pharmacyId) {
-		stmt.update("delete from pharmacyy where pharmacyid = ? ",pharmacyId);
+		stmt.update("delete from pharmacy where pharmacyid = ? ",pharmacyId);
 		
 	}
 

@@ -11,9 +11,10 @@ public class AppointmentBean {
 	int appointmentStatusId;
 	Date appointmentCreateDate;
 	Date appointmentDate;
-	Date appointmentTime;
+	String appointmentTime;
 	String comment;
 	String reference;
+	String complain;
 
 	public int getAppointmentId() {
 		return appointmentId;
@@ -71,11 +72,11 @@ public class AppointmentBean {
 		this.appointmentDate = appointmentDate;
 	}
 
-	public Date getAppointmentTime() {
+	public String getAppointmentTime() {
 		return appointmentTime;
 	}
 
-	public void setAppointmentTime(Date appointmentTime) {
+	public void setAppointmentTime(String appointmentTime) {
 		this.appointmentTime = appointmentTime;
 	}
 
@@ -94,4 +95,13 @@ public class AppointmentBean {
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
+
+	public String getComplain() {
+		return complain;
+	}
+
+	public void setComplain(String complain) {
+		this.complain = complain;
+	}
+
 }

@@ -5,7 +5,6 @@ public class LoginBean {
 	String email;
 	String password;
 	
-	
 	public String getEmail() {
 		return email;
 	}

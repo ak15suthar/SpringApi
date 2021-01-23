@@ -3,6 +3,7 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import com.bean.PharmacyBean;
 import com.bean.ResponseBean;
 import com.dao.PharmacyDao;
 
+@CrossOrigin
 @RestController
 public class PharmacyController {
 
@@ -22,7 +24,7 @@ public class PharmacyController {
 	PharmacyDao pharmacyDao;
 	
 	@PostMapping("/addPharmacy")
-	public ResponseBean<PharmacyBean> addPharmacy(PharmacyBean pharmacyBean){
+	public ResponseBean<PharmacyBean> addPharmacy(@RequestBody PharmacyBean pharmacyBean){
 		pharmacyDao.addPharmacy(pharmacyBean);
 		
 		ResponseBean<PharmacyBean> responseBean = new ResponseBean<>();

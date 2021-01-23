@@ -113,4 +113,22 @@ public class SessionDao {
 		return userBean;
 	}
 
+	public UserBean getUserByEmail(String email) {
+		UserBean userBean = null;
+
+		try {
+			userBean = stmt.queryForObject("select * from users where email = ?", new Object[] { email },
+					BeanPropertyRowMapper.newInstance(UserBean.class));
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return userBean;
+	}
+
+	public void updatePassword(UserBean userBean) {
+		stmt.update("update users set password = ? where email = ?", userBean.getPassword(), userBean.getEmail());
+
+	}
+
 }
