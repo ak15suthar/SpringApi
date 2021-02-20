@@ -45,10 +45,14 @@ public class SessionController {
 
 		UserBean signupBean = sessionDao.login(loginBean.getEmail(), loginBean.getPassword());
 
-		responseBean.setData(signupBean);
-		responseBean.setMsg("Login Successfully!!");
-		responseBean.setStatus(200);
-
+		if (signupBean == null) {
+			responseBean.setMsg("Invalid Credentials");
+			responseBean.setStatus(201);
+		} else {
+			responseBean.setData(signupBean);
+			responseBean.setMsg("Login Successfully!!");
+			responseBean.setStatus(200);
+		}
 		return responseBean;
 	}
 
@@ -125,9 +129,10 @@ public class SessionController {
 
 	}
 
-	@PostMapping("/resetPassword")
-	public ResponseBean<UserBean> sendOtpForRestPassword(@RequestParam("email") String email) {
+	@GetMapping("/resetPassword/{email}")
+	public ResponseBean<UserBean> sendOtpForRestPassword(@RequestBody @PathVariable("email") String email) {
 
+		System.out.println("reset call...");
 		UserBean userBean = sessionDao.getUserByEmail(email);
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 
@@ -147,23 +152,29 @@ public class SessionController {
 		return responseBean;
 	}
 
-	@PostMapping("/setNewPassword")
-	public ResponseBean<UserBean> setNewPasswordUsingOtp(@RequestBody UserBean userBean) {
+	@GetMapping("/setNewPassword/{otp}/{password}/{email}")
+	public ResponseBean<UserBean> setNewPasswordUsingOtp(@PathVariable("otp") String otp,
+			@PathVariable("password") String password, @PathVariable("email") String email) {
 
-		UserBean dbUser = sessionDao.getUserByEmail(userBean.getEmail());
-
+		System.out.println("setnewpassword...");
+		System.out.println(otp);
+		System.out.println(password);
+		System.out.println(email);
+		
+		UserBean dbUser = sessionDao.getUserByEmail(email);
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 
 		if (dbUser == null) {
 			responseBean.setMsg("User Not Found!!");
-			responseBean.setStatus(202);
+			responseBean.setStatus(201);
 		} else {
-			if (dbUser.getOtp().equals(userBean.getOtp())) {
-				otpDao.updateOtp(userBean.getEmail(), "");
-				sessionDao.updatePassword(userBean);
+			dbUser.setPassword(password);
+			if (dbUser.getOtp().equals(otp)) {
+				otpDao.updateOtp(email, "");
+				sessionDao.updatePassword(dbUser);
 				mailerService.sendMailForPasswordUpdate(dbUser);
 				responseBean.setMsg("Password Updated!!");
-				responseBean.setStatus(201);
+				responseBean.setStatus(200);
 			} else {
 				responseBean.setMsg("Invalid OTP!!");
 				responseBean.setStatus(201);
