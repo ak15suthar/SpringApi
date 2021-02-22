@@ -103,7 +103,7 @@ public class SessionController {
 	}
 
 	@PutMapping("/updateSignup")
-	public ResponseBean<UserBean> updateSignup(UserBean signupBean) {
+	public ResponseBean<UserBean> updateSignup(@RequestBody UserBean signupBean) {
 
 		sessionDao.updateSignup(signupBean);
 
@@ -138,7 +138,7 @@ public class SessionController {
 
 		if (userBean == null) {
 			responseBean.setMsg("Invalid Email Address!!");
-			responseBean.setStatus(202);
+			responseBean.setStatus(201);
 		} else {
 			String otp = OtpService.generateOtp();
 			userBean.setOtp(otp);
@@ -146,7 +146,7 @@ public class SessionController {
 			mailerService.sendOtpForForgetPassword(userBean);
 
 			responseBean.setMsg("Please Check Email For OTP!!");
-			responseBean.setStatus(201);
+			responseBean.setStatus(200);
 		}
 
 		return responseBean;
