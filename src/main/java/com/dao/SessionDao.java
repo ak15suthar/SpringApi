@@ -107,9 +107,15 @@ public class SessionDao {
 
 	public UserBean login(String email, String password) {
 
-		UserBean userBean = stmt.queryForObject("select * from users where email=? and password=?",
-				new Object[] { email, password }, BeanPropertyRowMapper.newInstance(UserBean.class));
-
+		UserBean userBean = null;
+		try {
+			userBean =  stmt.queryForObject("select * from users where email=? and password=?", new Object[] { email, password },
+					BeanPropertyRowMapper.newInstance(UserBean.class));
+			
+		} catch (Exception e) {
+			System.out.println("error");
+		
+		}
 		return userBean;
 	}
 
