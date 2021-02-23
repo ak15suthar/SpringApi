@@ -51,7 +51,7 @@ public class MailerService {
 
 			message.setSubject("HealthAssist Email Verification OTP!!");
 
-			String url = "<a href='http://localhost:9595/verifyemail'>Verify</a>";
+			String url = "<a href='https://healthassistangular.herokuapp.com/otp-verify'>Click Here to Verify</a>";
 
 			message.setContent("<h3>Hello, " + userBean.getFirstName() + " " + userBean.getLastName() + "<h3><br>"
 					+ userBean.getOtp()

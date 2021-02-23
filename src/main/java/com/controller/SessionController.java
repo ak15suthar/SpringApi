@@ -59,15 +59,23 @@ public class SessionController {
 	@PostMapping("/signup")
 	public ResponseBean<UserBean> signup(@RequestBody UserBean userBean) {
 
-		userBean.setOtp(OtpService.generateOtp());
-		mailerService.sendOtpForUserVerification(userBean);
-		sessionDao.insertUser(userBean);
-
+		
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 
-		responseBean.setData(userBean);
-		responseBean.setMsg("user successfully signup!!");
-		responseBean.setStatus(200);
+		if(sessionDao.getUserByEmail(userBean.getEmail()) != null) {
+			responseBean.setMsg("Email Already Exist!!");
+			responseBean.setStatus(201);
+		}
+		else {
+			
+			userBean.setOtp(OtpService.generateOtp());
+			mailerService.sendOtpForUserVerification(userBean);
+			sessionDao.insertUser(userBean);
+			responseBean.setData(userBean);
+			responseBean.setMsg("User Successfully Signup!!");
+			responseBean.setStatus(200);
+
+		}
 
 		return responseBean;
 	}

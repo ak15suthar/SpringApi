@@ -5,11 +5,11 @@ public class RoleBean {
 	int roleId;
 	String roleName;
 
-	// 1 admin
-	// 2 patient
+	// 2 admin
 	// 3 doctor
-	// 4 pharmacy
-	// 5 pathology
+	// 4 patient
+	// 5 pharmacy
+	// 6 pathology
 	public int getRoleId() {
 		return roleId;
 	}
@@ -27,3 +27,4 @@ public class RoleBean {
 	}
 
 }
+	
