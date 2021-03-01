@@ -11,6 +11,7 @@ public class DoctorProfileBean extends UserBean {
 	String profile_pic;
 	String about;
 	String registrationNo;
+	
 	public int getDoctorProfileId() {
 		return doctorProfileId;
 	}

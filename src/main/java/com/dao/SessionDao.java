@@ -113,7 +113,7 @@ public class SessionDao {
 					BeanPropertyRowMapper.newInstance(UserBean.class));
 			
 		} catch (Exception e) {
-			System.out.println("error");
+			System.out.println("User not found");
 		
 		}
 		return userBean;

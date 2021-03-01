@@ -59,15 +59,12 @@ public class SessionController {
 	@PostMapping("/signup")
 	public ResponseBean<UserBean> signup(@RequestBody UserBean userBean) {
 
-		
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 
-		if(sessionDao.getUserByEmail(userBean.getEmail()) != null) {
+		if (sessionDao.getUserByEmail(userBean.getEmail()) != null) {
 			responseBean.setMsg("Email Already Exist!!");
 			responseBean.setStatus(201);
-		}
-		else {
-			
+		} else {
 			userBean.setOtp(OtpService.generateOtp());
 			mailerService.sendOtpForUserVerification(userBean);
 			sessionDao.insertUser(userBean);
@@ -168,7 +165,7 @@ public class SessionController {
 		System.out.println(otp);
 		System.out.println(password);
 		System.out.println(email);
-		
+
 		UserBean dbUser = sessionDao.getUserByEmail(email);
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 
