@@ -26,7 +26,7 @@ public class ClinicDao {
 
 	public List<ClinicBean> listClinic() {
 
-		List<ClinicBean> clinicBean = stmt.query("select * from clinic",
+		List<ClinicBean> clinicBean = stmt.query("select * from clinic where isdeleted = 0",
 				BeanPropertyRowMapper.newInstance(ClinicBean.class));
 
 		return clinicBean;
@@ -38,15 +38,25 @@ public class ClinicDao {
 				"update clinic set clinicname = ?, clinictiming = ?, address = ?, phoneno = ?, rating = ?, about = ?, lat = ?, log = ?, cityid = ?, pincode = ? where clinicid = ?",
 				clinicBean.getClinicName(), clinicBean.getClinicTiming(), clinicBean.getAddress(),
 				clinicBean.getPhoneNo(), clinicBean.getRating(), clinicBean.getAbout(), clinicBean.getLat(),
-				clinicBean.getLog(), clinicBean.getCityId(), clinicBean.getPincode(),clinicBean.getClinicId());
+				clinicBean.getLog(), clinicBean.getCityId(), clinicBean.getPincode(), clinicBean.getClinicId());
 
 	}
 
 	public void deleteClinic(int clinicId) {
-		stmt.update("delete from clinic where clinicid = ?",clinicId);
-		
+		stmt.update("update clinic set isdeleted = 1 where clinicid = ?", clinicId);
+
 	}
-	
-	
+
+	public ClinicBean getClinicById(int clinicId) {
+		ClinicBean clinicBean = null;
+
+		try {
+			clinicBean = stmt.queryForObject("select * from clinic where clinicid = ?", new Object[] { clinicId },
+					BeanPropertyRowMapper.newInstance(ClinicBean.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return clinicBean;
+	}
 
 }

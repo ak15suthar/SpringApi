@@ -4,7 +4,6 @@ public class DoctorProfileBean extends UserBean {
 
 
 	int doctorProfileId;
-	int docProfileId;
 	String qualification;
 	String specialization;
 	int experience_in_year;
@@ -17,12 +16,6 @@ public class DoctorProfileBean extends UserBean {
 	}
 	public void setDoctorProfileId(int doctorProfileId) {
 		this.doctorProfileId = doctorProfileId;
-	}
-	public int getDocProfileId() {
-		return docProfileId;
-	}
-	public void setDocProfileId(int docProfileId) {
-		this.docProfileId = docProfileId;
 	}
 	public String getQualification() {
 		return qualification;
@@ -60,7 +53,4 @@ public class DoctorProfileBean extends UserBean {
 	public void setRegistrationNo(String registrationNo) {
 		this.registrationNo = registrationNo;
 	}
-
-	
-
 }

@@ -41,12 +41,12 @@ public class PatientProfileController {
 	public ResponseBean<List<PatientProfileBean>> listPatientProfile() {
 
 		List<PatientProfileBean> patientProfileBean = patientProfileDao.listPatientProfile();
-
+		
 		ResponseBean<List<PatientProfileBean>> responseBean = new ResponseBean<>();
-
+		
 		responseBean.setData(patientProfileBean);
 		responseBean.setMsg("PatientProfile List!!");
-		responseBean.setStatus(201);
+		responseBean.setStatus(200);
 
 		return responseBean;
 	}

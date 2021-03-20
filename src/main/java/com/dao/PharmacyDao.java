@@ -26,7 +26,7 @@ public class PharmacyDao {
 
 	public List<PharmacyBean> listPharmacy() {
 
-		List<PharmacyBean> pharmacyBean = stmt.query("select * from pharmacy",
+		List<PharmacyBean> pharmacyBean = stmt.query("select * from pharmacy where isdeleted = 0",
 				BeanPropertyRowMapper.newInstance(PharmacyBean.class));
 
 		return pharmacyBean;
@@ -43,8 +43,20 @@ public class PharmacyDao {
 	}
 
 	public void deletePharmacy(int pharmacyId) {
-		stmt.update("delete from pharmacy where pharmacyid = ? ",pharmacyId);
-		
+		stmt.update("update pharmacy set isdeleted = 1 where pharmacyid = ? ", pharmacyId);
+
+	}
+
+	public PharmacyBean getPharmacyById(int pharmacyId) {
+		PharmacyBean pharmacyBean = null;
+
+		try {
+			pharmacyBean = stmt.queryForObject("select * from pharmacy where pharmacyid = ?",
+					new Object[] { pharmacyId }, BeanPropertyRowMapper.newInstance(PharmacyBean.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pharmacyBean;
 	}
 
 }

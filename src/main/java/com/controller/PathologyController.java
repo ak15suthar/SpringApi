@@ -50,6 +50,19 @@ public class PathologyController {
 		
 		return responseBean;
 	}
+
+	@GetMapping("/getPathologyById/{pathologyId}")
+	public ResponseBean<PathologyBean> getPathologyById(@RequestBody @PathVariable("pathologyId") int pathologyId,PathologyBean pathologyBean){
+		pathologyBean = pathologyDao.getPathologyById(pathologyId);
+		
+		ResponseBean<PathologyBean> responseBean = new ResponseBean<>();
+		
+		responseBean.setData(pathologyBean);
+		responseBean.setMsg("Pathology By ID!!");
+		responseBean.setStatus(200);
+		
+		return responseBean;
+	}
 	
 	@PutMapping("/updatePathology")
 	public ResponseBean<PathologyBean> updatePathology(@RequestBody PathologyBean pathologyBean){

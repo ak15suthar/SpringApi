@@ -1,6 +1,6 @@
 package com.bean;
 
-public class PatientProfileBean {
+public class PatientProfileBean extends UserBean {
 
 	int patientProfileId;
 	String patientName;
@@ -11,7 +11,15 @@ public class PatientProfileBean {
 	String profilePic;
 	int cityId;
 	int pincode;
-	
+	int userId;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	public int getPatientProfileId() {
 		return patientProfileId;
@@ -32,7 +40,7 @@ public class PatientProfileBean {
 	public String getGender() {
 		return gender;
 	}
-	
+
 	public String getPhoneNo() {
 		return phoneNo;
 	}

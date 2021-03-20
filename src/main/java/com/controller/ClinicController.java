@@ -51,6 +51,19 @@ public class ClinicController {
 		return responseBean;
 	}
 	
+	@GetMapping("/getClinicById/{clinicId}")
+	public ResponseBean<ClinicBean> getClinicById(@RequestBody @PathVariable("clinicId") int clinicId,ClinicBean clinicBean){
+		clinicBean = clinicDao.getClinicById(clinicId);
+		
+		ResponseBean<ClinicBean> responseBean = new ResponseBean<>();
+		
+		responseBean.setData(clinicBean);
+		responseBean.setMsg("Clinic By Id!!");
+		responseBean.setStatus(200);
+		
+		return responseBean;
+	}
+	
 	@PutMapping("/updateClinic")
 	public ResponseBean<ClinicBean> updateClinic(@RequestBody ClinicBean clinicBean){
 		

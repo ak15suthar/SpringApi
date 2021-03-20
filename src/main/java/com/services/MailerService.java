@@ -121,7 +121,51 @@ public class MailerService {
 
 	}
 
-	public void sendDoctorRegisterMail(DoctorProfileBean doctorProfileBean) {
+	public void sendDoctorRegisterMail(DoctorProfileBean doctorProfileBean,UserBean userBean) {
+		String to = userBean.getEmail();// Change Accordingly
+
+		System.out.println("Mail"+to);
+		// Sender's email ID
+		String from = "ak15suthar@gmail.com";
+		final String username = "ak15suthar@gmail.com";
+		final String password = "aknk ztra deel ouwa";
+
+		String host = "smtp.gmail.com";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", "587");
+
+		// Get the session object
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
+		try {
+			Message message = new MimeMessage(session);
+
+			message.setFrom(new InternetAddress(from));
+
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+
+			message.setSubject("HealthAssist KYC Pending!!");
+
+			message.setContent("<h3>Hello, " + doctorProfileBean.getFirstName() + " " + doctorProfileBean.getLastName() + "<h3><br>"
+					+ doctorProfileBean.getStatus()
+					+ "</b> your KYC is pending our Team will contact you soon!!" ,
+					"text/html");
+
+			Transport.send(message);
+
+			System.out.println("Sent message successfully...");
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 
 	}
 

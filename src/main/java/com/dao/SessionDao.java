@@ -23,6 +23,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.bean.DoctorProfileBean;
+import com.bean.PatientProfileBean;
 import com.bean.UserBean;
 
 @Repository
@@ -64,6 +65,7 @@ public class SessionDao {
 	public void addDoctorProfile(DoctorProfileBean doctorProfileBean) {
 		UserBean userBean = new UserBean();
 
+//		userBean.setRoleId(3);
 		userBean.setEmail(doctorProfileBean.getEmail());
 		userBean.setPassword(doctorProfileBean.getPassword());
 		userBean.setFirstName(doctorProfileBean.getFirstName());
@@ -109,12 +111,12 @@ public class SessionDao {
 
 		UserBean userBean = null;
 		try {
-			userBean =  stmt.queryForObject("select * from users where email=? and password=?", new Object[] { email, password },
-					BeanPropertyRowMapper.newInstance(UserBean.class));
-			
+			userBean = stmt.queryForObject("select * from users where email=? and password=?",
+					new Object[] { email, password }, BeanPropertyRowMapper.newInstance(UserBean.class));
+
 		} catch (Exception e) {
 			System.out.println("User not found");
-		
+
 		}
 		return userBean;
 	}
@@ -135,6 +137,21 @@ public class SessionDao {
 	public void updatePassword(UserBean userBean) {
 		stmt.update("update users set password = ? where email = ?", userBean.getPassword(), userBean.getEmail());
 
+	}
+
+	public void addPatientProfile(PatientProfileBean patientProfileBean) {
+		UserBean userBean = new UserBean();
+		userBean.setRoleId(4);
+
+		int userId = insertUser(patientProfileBean);
+		patientProfileBean.setCityId(0);
+
+		stmt.update(
+				"insert into patientprofile(patientname,gender,phoneno,email,age,profilepic,pincode,userid) values(?,?,?,?,?,?,?,?)",
+				patientProfileBean.getPatientName(), patientProfileBean.getGender(), patientProfileBean.getPhoneNo(),
+				patientProfileBean.getEmail(), patientProfileBean.getAge(), patientProfileBean.getProfilePic(),
+				patientProfileBean.getPincode(), patientProfileBean.getUserId());
+		
 	}
 
 }

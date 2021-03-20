@@ -25,7 +25,7 @@ public class PathologyDao {
 
 	public List<PathologyBean> listPathology() {
 
-		List<PathologyBean> pathologyBean = stmt.query("select * from pathology",
+		List<PathologyBean> pathologyBean = stmt.query("select * from pathology where isdeleted = 0",
 				BeanPropertyRowMapper.newInstance(PathologyBean.class));
 
 		return pathologyBean;
@@ -41,8 +41,19 @@ public class PathologyDao {
 	}
 
 	public void deletePathology(int pathologyId) {
-		stmt.update("delete from pathology where pathologyid = ?",pathologyId);
-		
+		stmt.update("update pathology set isdeleted = 1 where pathologyid = ?", pathologyId);
+
+	}
+
+	public PathologyBean getPathologyById(int pathologyId) {
+		PathologyBean pathologyBean = null;
+		try {
+			pathologyBean = stmt.queryForObject("select * from pathology where pathologyid = ?", new Object[] { pathologyId },
+					BeanPropertyRowMapper.newInstance(PathologyBean.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pathologyBean;
 	}
 
 }

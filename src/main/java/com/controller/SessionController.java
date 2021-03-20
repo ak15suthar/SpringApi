@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bean.DoctorProfileBean;
 import com.bean.LoginBean;
+import com.bean.PatientProfileBean;
 import com.bean.ResponseBean;
 import com.bean.UserBean;
 import com.dao.OtpDao;
@@ -57,21 +58,27 @@ public class SessionController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseBean<UserBean> signup(@RequestBody UserBean userBean) {
+	public ResponseBean<UserBean> signup(@RequestBody PatientProfileBean patientProfileBean) {
 
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 
-		if (sessionDao.getUserByEmail(userBean.getEmail()) != null) {
+		if (sessionDao.getUserByEmail(patientProfileBean.getEmail()) != null) {
 			responseBean.setMsg("Email Already Exist!!");
 			responseBean.setStatus(201);
 		} else {
-			userBean.setOtp(OtpService.generateOtp());
-			mailerService.sendOtpForUserVerification(userBean);
-			sessionDao.insertUser(userBean);
-			responseBean.setData(userBean);
+			patientProfileBean.setOtp(OtpService.generateOtp());
+			mailerService.sendOtpForUserVerification(patientProfileBean);
+			//sessionDao.insertUser(patientProfileBean);
+			
+			patientProfileBean.setUserId(patientProfileBean.getUserId());
+			patientProfileBean.setPatientName(patientProfileBean.getFirstName());
+//			System.out.println("UserId : "+patientProfileBean.getUserId());
+			
+			sessionDao.addPatientProfile(patientProfileBean);
+			responseBean.setData(patientProfileBean);
 			responseBean.setMsg("User Successfully Signup!!");
 			responseBean.setStatus(200);
-
+			
 		}
 
 		return responseBean;
@@ -79,17 +86,27 @@ public class SessionController {
 
 	@PostMapping("/doctorSignup")
 	public ResponseBean<UserBean> doctorSignup(@RequestBody DoctorProfileBean doctorProfileBean) {
-
+		System.out.println("Role "+doctorProfileBean.getRoleId());
+		
+		System.out.println("Name"+doctorProfileBean.getFirstName());
+		
 		doctorProfileBean.setStatus(UserBean.KYC_DOCTOR);
-		doctorProfileBean.setStatusReason("Your KYS is pending Our Team Will Contact You Soon..");
-		mailerService.sendDoctorRegisterMail(doctorProfileBean);
+		doctorProfileBean.setStatusReason("Your KYC is pending Our Team Will Contact You Soon..");
+//		mailerService.sendDoctorRegisterMail(doctorProfileBean,userBean);
 
+		System.out.println(doctorProfileBean.getEmail());
+		System.out.println(doctorProfileBean.getFirstName());
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
-
-		responseBean.setData(doctorProfileBean);
-		responseBean.setMsg("user successfully signup!!");
-		responseBean.setStatus(200);
-
+ 
+		if (sessionDao.getUserByEmail(doctorProfileBean.getEmail()) != null) {
+			responseBean.setMsg("Email Already Exist!!");
+			responseBean.setStatus(201);
+		} else {
+			sessionDao.addDoctorProfile(doctorProfileBean);
+			responseBean.setData(doctorProfileBean);
+			responseBean.setMsg("user successfully signup!!");
+			responseBean.setStatus(200);
+		}
 		return responseBean;
 	}
 
