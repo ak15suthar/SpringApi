@@ -66,19 +66,20 @@ public class SessionController {
 			responseBean.setMsg("Email Already Exist!!");
 			responseBean.setStatus(201);
 		} else {
+
 			patientProfileBean.setOtp(OtpService.generateOtp());
 			mailerService.sendOtpForUserVerification(patientProfileBean);
-			//sessionDao.insertUser(patientProfileBean);
-			
+			// sessionDao.insertUser(patientProfileBean);
+
 			patientProfileBean.setUserId(patientProfileBean.getUserId());
 			patientProfileBean.setPatientName(patientProfileBean.getFirstName());
 //			System.out.println("UserId : "+patientProfileBean.getUserId());
-			
+
 			sessionDao.addPatientProfile(patientProfileBean);
 			responseBean.setData(patientProfileBean);
 			responseBean.setMsg("User Successfully Signup!!");
 			responseBean.setStatus(200);
-			
+
 		}
 
 		return responseBean;
@@ -86,10 +87,10 @@ public class SessionController {
 
 	@PostMapping("/doctorSignup")
 	public ResponseBean<UserBean> doctorSignup(@RequestBody DoctorProfileBean doctorProfileBean) {
-		System.out.println("Role "+doctorProfileBean.getRoleId());
-		
-		System.out.println("Name"+doctorProfileBean.getFirstName());
-		
+		System.out.println("Role " + doctorProfileBean.getRoleId());
+
+		System.out.println("Name" + doctorProfileBean.getFirstName());
+
 		doctorProfileBean.setStatus(UserBean.KYC_DOCTOR);
 		doctorProfileBean.setStatusReason("Your KYC is pending Our Team Will Contact You Soon..");
 //		mailerService.sendDoctorRegisterMail(doctorProfileBean,userBean);
@@ -97,7 +98,7 @@ public class SessionController {
 		System.out.println(doctorProfileBean.getEmail());
 		System.out.println(doctorProfileBean.getFirstName());
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
- 
+
 		if (sessionDao.getUserByEmail(doctorProfileBean.getEmail()) != null) {
 			responseBean.setMsg("Email Already Exist!!");
 			responseBean.setStatus(201);
@@ -110,6 +111,39 @@ public class SessionController {
 		return responseBean;
 	}
 
+	@PostMapping("/adminAddPatientProfile")
+	public ResponseBean<PatientProfileBean> adminAddPatientProfile(@RequestBody PatientProfileBean patientProfileBean) {
+
+		sessionDao.adminAddPatientProfile(patientProfileBean);
+
+		ResponseBean<PatientProfileBean> responseBean = new ResponseBean<>();
+
+		responseBean.setData(patientProfileBean);
+		responseBean.setMsg("Patient Profile Added!!");
+		responseBean.setStatus(200);
+
+		return responseBean;
+	}
+
+	@PostMapping("/adminAddUsers")
+	public ResponseBean<UserBean> adminAddUsers(@RequestBody UserBean userBean) {
+
+		ResponseBean<UserBean> responseBean = new ResponseBean<>();
+
+		if (sessionDao.getUserByEmail(userBean.getEmail()) != null) {
+			responseBean.setMsg("Email Already Exist!!");
+			responseBean.setStatus(201);
+		} else {
+			sessionDao.adminAddUsers(userBean);
+			responseBean.setData(userBean);
+			responseBean.setMsg("Admin Add Users!!");
+			responseBean.setStatus(200);
+
+		}
+		return responseBean;
+
+	}
+
 	@GetMapping("/listSignup")
 	public ResponseBean<List<UserBean>> listSignup() {
 
@@ -119,6 +153,19 @@ public class SessionController {
 
 		responseBean.setData(signupBean);
 		responseBean.setMsg("Signup List!!");
+		responseBean.setStatus(200);
+
+		return responseBean;
+	}
+
+	@GetMapping("/getUserById/{userId}")
+	public ResponseBean<UserBean> getUser(@PathVariable("userId") int userId, UserBean userBean) {
+		userBean = sessionDao.getUserById(userId);
+
+		ResponseBean<UserBean> responseBean = new ResponseBean<>();
+		
+		responseBean.setData(userBean);
+		responseBean.setMsg("Single User Return");
 		responseBean.setStatus(200);
 
 		return responseBean;

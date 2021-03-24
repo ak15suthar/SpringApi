@@ -38,6 +38,7 @@ public class DoctorClinicController {
 	public ResponseBean<List<DoctorClinicBean>> listDoctClinic(@PathVariable("userId") int userId) {
 		ResponseBean<List<DoctorClinicBean>> responseBean = new ResponseBean<>();
 		// userid docprofileid
+		
 		List<DoctorClinicBean> doctorClinicBean = doctorClinicDao.listDoctorCLinic(userId);
 
 		responseBean.setData(doctorClinicBean);

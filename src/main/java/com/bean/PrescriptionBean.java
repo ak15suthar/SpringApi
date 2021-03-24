@@ -1,6 +1,6 @@
 package com.bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class PrescriptionBean {
 
@@ -12,6 +12,42 @@ public class PrescriptionBean {
 	Date prescriptionDate;
 	String generalAdvice;
 	String followupComment;
+	int medicineId;
+	String frequency;
+	String duration;
+	String instructions;
+
+	public int getMedicineId() {
+		return medicineId;
+	}
+
+	public void setMedicineId(int medicineId) {
+		this.medicineId = medicineId;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
+	public String getInstructions() {
+		return instructions;
+	}
+
+	public void setInstructions(String instructions) {
+		this.instructions = instructions;
+	}
 
 	public int getPrescriptionId() {
 		return prescriptionId;

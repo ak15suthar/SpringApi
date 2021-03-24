@@ -37,10 +37,10 @@ public class AppointmentController {
 		return responseBean;
 	}
 	
-	@GetMapping("/listAppointment")
-	public ResponseBean<List<AppointmentBean>> listAppointment(){
+	@GetMapping("/listAppointment/{userId}")
+	public ResponseBean<List<AppointmentBean>> listAppointment(@PathVariable("userId") int userId){
 		
-		List<AppointmentBean> appointmentBean = appointmentDao.listAppointment();
+		List<AppointmentBean> appointmentBean = appointmentDao.listAppointment(userId);
 		
 		ResponseBean<List<AppointmentBean>> responseBean = new ResponseBean<>();
 		

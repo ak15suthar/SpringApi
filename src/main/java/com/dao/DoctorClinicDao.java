@@ -25,8 +25,9 @@ public class DoctorClinicDao {
 	}
 
 	public List<DoctorClinicBean> listDoctorCLinic(int userId) {
+		
 		List<DoctorClinicBean> doctorClinicBean = stmt.query(
-				"select dc.*,dp.userid,cl.clinicname,u.firstname from doctorclinic as dc,clinic as cl,doctorprofile as dp,users as u where dp.userid = dc.doctorprofileid and cl.clinicid and u.userid = dp.userid and dc.isdeleted = 0 and u.userid = ?",
+				"select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.doctorprofileid  = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and dc.isdeleted =0 and u.userid=?",
 				new Object[] { userId }, BeanPropertyRowMapper.newInstance(DoctorClinicBean.class));
 		return doctorClinicBean;
 	}

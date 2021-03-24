@@ -37,6 +37,21 @@ public class PrescriptionController {
 		return responseBean;
 	}
 
+	@PostMapping("/addPrescriptionMedicine")
+	public ResponseBean<PrescriptionBean> addPrescriptionMedicine(@RequestBody PrescriptionBean prescriptionBean) {
+
+		prescriptionDao.addPrescriptionMedicine(prescriptionBean);
+
+		ResponseBean<PrescriptionBean> responseBean = new ResponseBean<>();
+
+		responseBean.setData(prescriptionBean);
+		responseBean.setMsg("Prescription Medicine Added...!!");
+		responseBean.setStatus(200);
+
+		return responseBean;
+
+	}
+
 	@GetMapping("/listPrescription")
 	public ResponseBean<List<PrescriptionBean>> listPrescription() {
 
@@ -76,17 +91,17 @@ public class PrescriptionController {
 
 		return responseBean;
 	}
-	
+
 	@DeleteMapping("/deletePrescription/{prescriptionId}")
-	public ResponseBean<PrescriptionBean> deletePrescription(@PathVariable("prescriptionId") int prescriptionId){
+	public ResponseBean<PrescriptionBean> deletePrescription(@PathVariable("prescriptionId") int prescriptionId) {
 		prescriptionDao.deletePrescription(prescriptionId);
-	
+
 		ResponseBean<PrescriptionBean> responseBean = new ResponseBean<>();
-		
+
 		responseBean.setMsg("Prescription Deleted!!");
 		responseBean.setStatus(200);
-	
+
 		return responseBean;
 	}
-		
+
 }

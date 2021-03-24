@@ -26,9 +26,10 @@ public class AppointmentDao {
 
 	}
 
-	public List<AppointmentBean> listAppointment() {
-		List<AppointmentBean> appointmentBean = stmt.query("select * from appointment",
-				BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+	public List<AppointmentBean> listAppointment(int userId) {
+		List<AppointmentBean> appointmentBean = stmt.query(
+				"select p.*,a.*,s.*,u.*,dp.*,cli.* from patientprofile as p,clinic as cli,doctorprofile as dp,users as u,appointment as a,appointmentstatus as s where a.patientprofileid = p.patientprofileid and a.clinicid = cli.clinicid and a.appointmentstatusid = s.appointmentstatusid and u.userid = dp.userid and u.userid = ?",
+				new Object[] { userId }, BeanPropertyRowMapper.newInstance(AppointmentBean.class));
 		return appointmentBean;
 	}
 
@@ -49,7 +50,7 @@ public class AppointmentDao {
 	}
 
 	public void acceptRejectAppointment(AppointmentBean appointmentBean) {
-		stmt.update("update appointment set statusid = ? where appointmentid = ?",
+		stmt.update("update appointment set appointmentstatusid = ? where appointmentid = ?",
 				appointmentBean.getAppointmentStatusId(), appointmentBean.getAppointmentId());
 
 	}

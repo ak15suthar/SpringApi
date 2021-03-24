@@ -89,7 +89,8 @@ public class SessionDao {
 
 	public List<UserBean> listSignup() {
 
-		List<UserBean> userBean = stmt.query("select * from users", BeanPropertyRowMapper.newInstance(UserBean.class));
+		List<UserBean> userBean = stmt.query("select * from users where isdeleted = 0",
+				BeanPropertyRowMapper.newInstance(UserBean.class));
 
 		return userBean;
 	}
@@ -103,8 +104,7 @@ public class SessionDao {
 	}
 
 	public void deleteSignup(int userId) {
-		stmt.update("delete from users where userid = ?", userId);
-
+		stmt.update("update users set isdeleted = 1 where userid = ?", userId);
 	}
 
 	public UserBean login(String email, String password) {
@@ -151,7 +151,43 @@ public class SessionDao {
 				patientProfileBean.getPatientName(), patientProfileBean.getGender(), patientProfileBean.getPhoneNo(),
 				patientProfileBean.getEmail(), patientProfileBean.getAge(), patientProfileBean.getProfilePic(),
 				patientProfileBean.getPincode(), patientProfileBean.getUserId());
-		
+
 	}
 
+	public void adminAddUsers(UserBean userBean) {
+		stmt.update("INSERT INTO users(email, password, firstname, lastname, gender, roleid) VALUES (?, ?, ?, ?, ?, ?)",
+				userBean.getEmail(), userBean.getPassword(), userBean.getFirstName(), userBean.getLastName(),
+				userBean.getGender(), userBean.getRoleId());
+
+	}
+
+	public void adminAddPatientProfile(PatientProfileBean patientProfileBean) {
+		UserBean userBean = new UserBean();
+		userBean.setRoleId(4);
+
+		int userId = insertUser(patientProfileBean);
+		patientProfileBean.setUserId(userId);
+		patientProfileBean.setPatientName(patientProfileBean.getFirstName());
+
+		stmt.update(
+				"insert into patientprofile(patientname,gender,phoneno,email,age,profilepic,cityid,pincode,userid) values(?,?,?,?,?,?,?,?,?)",
+				patientProfileBean.getPatientName(), patientProfileBean.getGender(), patientProfileBean.getPhoneNo(),
+				patientProfileBean.getEmail(), patientProfileBean.getAge(), patientProfileBean.getProfilePic(),
+				patientProfileBean.getCityId(), patientProfileBean.getPincode(), patientProfileBean.getUserId());
+
+		System.out.println(patientProfileBean.getUserId());
+	}
+
+	public UserBean getUserById(int userId) {
+		
+		UserBean userBean = null;
+		try {
+			userBean = stmt.queryForObject("select * from users where userid=?", new Object[] { userId },
+					BeanPropertyRowMapper.newInstance(UserBean.class));
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+		return userBean;
+	}
 }
