@@ -21,10 +21,10 @@ public class AppointmentDiseasePatientDao {
 				appointmentDiseasePatientBean.getPatientProfileId());
 	}
 
-	public List<AppointmentDiseasePatientBean> listAppointmentDiseasePatient() {
+	public List<AppointmentDiseasePatientBean> listAppointmentDiseasePatient(int appointmentId) {
 		List<AppointmentDiseasePatientBean> appointmentDiseasePatientBean = stmt.query(
-				"select * from appointmentdisease",
-				BeanPropertyRowMapper.newInstance(AppointmentDiseasePatientBean.class));
+				"select ap.*,ad.*,d.* from appointmentdiseasepatient as ad,appointment as ap,disease as d join disease using(diseaseid) where ad.diseaseid = d.diseaseid and ad.appointmentid = ap.appointmentid and ap.appointmentid = ?",
+				new Object[] { appointmentId }, BeanPropertyRowMapper.newInstance(AppointmentDiseasePatientBean.class));
 		return appointmentDiseasePatientBean;
 	}
 

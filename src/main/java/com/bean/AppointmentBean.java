@@ -2,7 +2,7 @@ package com.bean;
 
 import java.util.Date;
 
-public class AppointmentBean {
+public class AppointmentBean extends PatientProfileBean {
 
 	int appointmentId;
 	int doctorProfileId;
@@ -15,6 +15,16 @@ public class AppointmentBean {
 	String comment;
 	String reference;
 	String complain;
+	String clinicName;
+	
+	
+	public String getClinicName() {
+		return clinicName;
+	}
+
+	public void setClinicName(String clinicName) {
+		this.clinicName = clinicName;
+	}
 
 	public int getAppointmentId() {
 		return appointmentId;

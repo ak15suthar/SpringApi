@@ -30,7 +30,7 @@ public class PharmacyDao {
 //				pharmacyBean.getLog(), pharmacyBean.getCityId(), pharmacyBean.getPincode());
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		String insertSql = "insert into pharmacy(pharmacyname,timing,address,phoneno,rating,about,lat,log,cityid,pincode) values(?,?,?,?,?,?,?,?,?,?)";
+		String insertSql = "insert into pharmacy(pharmacyname,pharmacytimings,address,phoneno,rating,about,lat,log,cityid,pincode) values(?,?,?,?,?,?,?,?,?,?)";
 
 		stmt.update(new PreparedStatementCreator() {
 

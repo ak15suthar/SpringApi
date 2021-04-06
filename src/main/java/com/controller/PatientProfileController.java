@@ -23,10 +23,10 @@ public class PatientProfileController {
 	@Autowired
 	PatientProfileDao patientProfileDao;
 
-	@PostMapping("/addPatientProfile")
-	public ResponseBean<PatientProfileBean> addPatientProfile(@RequestBody PatientProfileBean patientProfileBean) {
+	@PostMapping("/addFamilyMember")
+	public ResponseBean<PatientProfileBean> addFamilyMember(@RequestBody PatientProfileBean patientProfileBean) {
 
-		patientProfileDao.addPatientProfile(patientProfileBean);
+		patientProfileDao.addFamilyMember(patientProfileBean);
 
 		ResponseBean<PatientProfileBean> responseBean = new ResponseBean<>();
 
@@ -41,11 +41,40 @@ public class PatientProfileController {
 	public ResponseBean<List<PatientProfileBean>> listPatientProfile() {
 
 		List<PatientProfileBean> patientProfileBean = patientProfileDao.listPatientProfile();
-		
+
 		ResponseBean<List<PatientProfileBean>> responseBean = new ResponseBean<>();
-		
+
 		responseBean.setData(patientProfileBean);
 		responseBean.setMsg("PatientProfile List!!");
+		responseBean.setStatus(200);
+
+		return responseBean;
+	}
+
+	@GetMapping("/listUserPatient/{userId}")
+	public ResponseBean<List<PatientProfileBean>> listUserPatient(@PathVariable("userId") int userId) {
+		ResponseBean<List<PatientProfileBean>> responseBean = new ResponseBean<>();
+		System.out.println("===>" + userId);
+
+		List<PatientProfileBean> userPatientBean = patientProfileDao.listUserPatient(userId);
+
+		responseBean.setData(userPatientBean);
+		responseBean.setMsg("User Patient Display..!!!!");
+		responseBean.setStatus(201);
+
+		return responseBean;
+	}
+
+	@GetMapping("/getPatientProfile/{userId}")
+	public ResponseBean<PatientProfileBean> getProfileProfile(@PathVariable("userId") int userId,
+			PatientProfileBean patientProfileBean) {
+
+		patientProfileBean = patientProfileDao.getPatientProfileById(userId);
+		
+		ResponseBean<PatientProfileBean> responseBean = new ResponseBean<>();
+		
+		responseBean.setData(patientProfileBean);
+		responseBean.setMsg("Single User Return");
 		responseBean.setStatus(200);
 
 		return responseBean;

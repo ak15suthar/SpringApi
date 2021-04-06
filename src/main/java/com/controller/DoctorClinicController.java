@@ -23,8 +23,9 @@ public class DoctorClinicController {
 
 	@PostMapping("/addDoctorClinic")
 	public ResponseBean<DoctorClinicBean> adddoctclinic(@RequestBody DoctorClinicBean doctorClinicBean) {
-		doctorClinicDao.addDoctClinic(doctorClinicBean);
-
+//		System.out.println("id"+doctorClinicBean.getDoctorProfileId());
+		
+		doctorClinicDao.addDoctorClinic(doctorClinicBean);
 		ResponseBean<DoctorClinicBean> response = new ResponseBean<>();
 		
 		response.setData(doctorClinicBean);

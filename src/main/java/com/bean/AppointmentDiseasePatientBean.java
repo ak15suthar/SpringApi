@@ -5,6 +5,15 @@ public class AppointmentDiseasePatientBean {
 	int appointmentId;
 	int diseaseId;
 	int patientProfileId;
+	String diseaseName;
+
+	public String getDiseaseName() {
+		return diseaseName;
+	}
+
+	public void setDiseaseName(String diseaseName) {
+		this.diseaseName = diseaseName;
+	}
 
 	public int getAppointmentDiseasePatientId() {
 		return appointmentDiseasePatientId;

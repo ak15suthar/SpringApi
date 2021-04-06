@@ -15,19 +15,23 @@ public class DoctorClinicDao {
 	@Autowired
 	JdbcTemplate stmt;
 
-	public void addDoctClinic(DoctorClinicBean doctorClinicBean) {
+	public void addDoctorClinic(DoctorClinicBean doctorClinicBean) {
+		//System.out.println("id : "+doctorClinicBean.getDoctorProfileId());
+		//doctorClinicBean.setDoctorProfileId(doctorClinicBean.getDoctorProfileId());
+		
 		stmt.update(
 				"insert into doctorclinic(doctorprofileid,clinicid,monday,tuesday,wednesday,thursday,friday,saturday,sunday,threshold) values (?,?,?,?,?,?,?,?,?,?)",
-				doctorClinicBean.getDoctorClinicId(), doctorClinicBean.getClinicId(), doctorClinicBean.getMonday(),
+				doctorClinicBean.getDoctorProfileId(), doctorClinicBean.getClinicId(), doctorClinicBean.getMonday(),
 				doctorClinicBean.getTuesday(), doctorClinicBean.getWednesday(), doctorClinicBean.getThursday(),
 				doctorClinicBean.getFriday(), doctorClinicBean.getSaturday(), doctorClinicBean.getSunday(),
 				doctorClinicBean.getThreshold());
 	}
 
 	public List<DoctorClinicBean> listDoctorCLinic(int userId) {
-		
+		//select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.doctorprofileid  = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and dc.isdeleted =0 and u.userid=?
+		//select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.doctorprofileid  = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and dc.isdeleted =0 and u.userid=?
 		List<DoctorClinicBean> doctorClinicBean = stmt.query(
-				"select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.doctorprofileid  = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and dc.isdeleted =0 and u.userid=?",
+				"select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.doctorprofileid  = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and dc.isdeleted =0 and dp.doctorprofileid = ? ",
 				new Object[] { userId }, BeanPropertyRowMapper.newInstance(DoctorClinicBean.class));
 		return doctorClinicBean;
 	}

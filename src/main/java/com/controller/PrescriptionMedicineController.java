@@ -79,7 +79,7 @@ public class PrescriptionMedicineController {
 		return responseBean;
 	}
 	
-	@DeleteMapping("deletePrescriptionMedicine/{prescriptionMedicineId}")
+	@DeleteMapping("/deletePrescriptionMedicine/{prescriptionMedicineId}")
 	public ResponseBean<PrescriptionMedicineBean> deletePrescriptionMedicine(@PathVariable("prescriptionMedicineId") int prescriptionMedicineId){
 		prescriptionMedicineDao.deletePrescriptionMedicine(prescriptionMedicineId);
 		

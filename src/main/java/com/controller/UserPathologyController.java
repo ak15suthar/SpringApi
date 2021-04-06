@@ -51,6 +51,8 @@ public class UserPathologyController {
 		return responseBean;
 	}
 
+	
+	
 	@PutMapping("/updateUserPathology")
 	public ResponseBean<UserPathologyBean> updateUserPathology(@RequestBody UserPathologyBean userPathologyBean) {
 		
