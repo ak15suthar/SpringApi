@@ -61,7 +61,7 @@ public class PrescriptionDao {
 	public void addPrescriptionMedicine(PrescriptionBean prescriptionBean) {
 
 		int prescriptionId = addPrescription(prescriptionBean);
-
+		
 		prescriptionBean.setPrescriptionId(prescriptionId);
 		stmt.update(
 				"insert into prescriptionmedicine(prescriptionid,medicineid,frequency,duration,instructions) values(?,?,?,?,?)",

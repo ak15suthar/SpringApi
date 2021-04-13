@@ -30,8 +30,8 @@ public class UserPharmacyDao {
 
 	public List<UserPharmacyBean> listUserPharmacy(int pharmacyId) {
 		
-		java.util.List<UserPharmacyBean> userPharmacyBean = stmt.query(
-				"select u.*,p.*,up.* from users as u,pharmacy as p,userpharmacy as up where up.userid = u.userid and up.pharmacyid = p.pharmacyid and up.userid = ? and up.isdeleted=0",
+		List<UserPharmacyBean> userPharmacyBean = stmt.query(
+				"select u.*,p.*,up.* from users as u,pharmacy as p,userpharmacy as up where up.userid = u.userid and up.pharmacyid = p.pharmacyid and up.userid = ?",
 				new Object[] { pharmacyId }, BeanPropertyRowMapper.newInstance(UserPharmacyBean.class));
 		
 		return userPharmacyBean;

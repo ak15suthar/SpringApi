@@ -99,7 +99,7 @@ public class PathologyDao {
 	public PathologyBean getPathologyById(int pathologyId) {
 		PathologyBean pathologyBean = null;
 		try {
-			pathologyBean = stmt.queryForObject("select * from pathology where pathologyid = ?",
+			pathologyBean = stmt.queryForObject("select *,city.cityname from pathology as p join city using(cityid) where p.cityid = cityid and pathologyid=?",
 					new Object[] { pathologyId }, BeanPropertyRowMapper.newInstance(PathologyBean.class));
 		} catch (Exception e) {
 			e.printStackTrace();

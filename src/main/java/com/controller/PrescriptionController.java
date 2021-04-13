@@ -39,9 +39,10 @@ public class PrescriptionController {
 
 	@PostMapping("/addPrescriptionMedicine")
 	public ResponseBean<PrescriptionBean> addPrescriptionMedicine(@RequestBody PrescriptionBean prescriptionBean) {
-
+		
+		System.out.println("doc"+prescriptionBean.getDoctorProfileId());
 		prescriptionDao.addPrescriptionMedicine(prescriptionBean);
-
+		
 		ResponseBean<PrescriptionBean> responseBean = new ResponseBean<>();
 
 		responseBean.setData(prescriptionBean);

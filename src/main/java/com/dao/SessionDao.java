@@ -64,8 +64,8 @@ public class SessionDao {
 
 	public void addDoctorProfile(DoctorProfileBean doctorProfileBean) {
 		UserBean userBean = new UserBean();
-
-//		userBean.setRoleId(3);
+		
+		doctorProfileBean.setRoleId(3);
 		userBean.setEmail(doctorProfileBean.getEmail());
 		userBean.setPassword(doctorProfileBean.getPassword());
 		userBean.setFirstName(doctorProfileBean.getFirstName());

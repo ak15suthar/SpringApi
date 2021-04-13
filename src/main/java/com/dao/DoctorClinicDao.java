@@ -31,9 +31,15 @@ public class DoctorClinicDao {
 		//select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.doctorprofileid  = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and dc.isdeleted =0 and u.userid=?
 		//select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.doctorprofileid  = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and dc.isdeleted =0 and u.userid=?
 		List<DoctorClinicBean> doctorClinicBean = stmt.query(
-				"select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.doctorprofileid  = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and dc.isdeleted =0 and dp.doctorprofileid = ? ",
+				"select dc.*,dp.userid,cli.clinicname,u.firstname from doctorclinic as dc,clinic cli,doctorprofile as dp,users as u where dp.userid = dc.doctorprofileid and cli.clinicid = dc.clinicid and u.userid = dp.userid and u.userid=?",
 				new Object[] { userId }, BeanPropertyRowMapper.newInstance(DoctorClinicBean.class));
 		return doctorClinicBean;
 	}
 
+	public List<DoctorClinicBean> listDoctorClinicTiming(int clinicid) {
+		
+		List<DoctorClinicBean> doctorClinicBean = stmt.query("select dc.* from doctorclinic as dc where dc.clinicid = ?", new Object[]{clinicid}, BeanPropertyRowMapper.newInstance(DoctorClinicBean.class));
+		
+		return doctorClinicBean;
+	}
 }

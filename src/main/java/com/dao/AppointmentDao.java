@@ -16,6 +16,7 @@ public class AppointmentDao {
 	JdbcTemplate stmt;
 
 	public void addAppointment(AppointmentBean appointmentBean) {
+		appointmentBean.setAppointmentStatusId(4);
 		stmt.update(
 				"insert into appointment(doctorprofileid,patientprofileid,clinicid,appointmentstatusid,appointmentcreatedate,appointmentdate,appointmenttime,comment,reference,complain) values(?,?,?,?,?,?,?,?,?,?)",
 				appointmentBean.getDoctorProfileId(), appointmentBean.getPatientProfileId(),
@@ -42,7 +43,7 @@ public class AppointmentDao {
 
 	public List<AppointmentBean> listAppointment(int userId) {
 		List<AppointmentBean> appointmentBean = stmt.query(
-				"select p.*,a.*,s.*,u.*,dp.*,cli.* from patientprofile as p,clinic as cli,doctorprofile as dp,users as u,appointment as a,appointmentstatus as s where a.patientprofileid = p.patientprofileid and a.clinicid = cli.clinicid and a.appointmentstatusid = s.appointmentstatusid and u.userid = dp.userid and u.userid = ?",
+				"select p.*,a.*,s.*,u.*,dp.*,cli.* from patientprofile as p,clinic as cli,doctorprofile as dp,users as u,appointment as a,appointmentstatus as s where a.patientprofileid = p.patientprofileid and a.clinicid = cli.clinicid and a.appointmentstatusid = s.appointmentstatusid and u.userid = a.doctorprofileid and a.doctorprofileid = dp.userid and u.userid = ?",
 				new Object[] { userId }, BeanPropertyRowMapper.newInstance(AppointmentBean.class));
 		return appointmentBean;
 	}

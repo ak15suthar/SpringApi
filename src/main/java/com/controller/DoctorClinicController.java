@@ -48,4 +48,18 @@ public class DoctorClinicController {
 
 		return responseBean;
 	}
+	
+	@GetMapping("/listDoctorClinicTiming/{clinicId}")
+	public ResponseBean<List<DoctorClinicBean>> listDoctClinicTiming(@PathVariable("clinicId") int clinicId) {
+	ResponseBean<List<DoctorClinicBean>> response = new ResponseBean<>();
+
+		//userid docprofileid
+		List<DoctorClinicBean> doctorClinicBean = doctorClinicDao.listDoctorClinicTiming(clinicId);
+		
+		response.setData(doctorClinicBean);
+		response.setMsg("Doctor Clinic Timing Display..!!!!");
+		response.setStatus(201);
+		
+		return response;
+	}
 }

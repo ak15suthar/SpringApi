@@ -30,7 +30,7 @@ public class UserPathologyDao {
 	public List<UserPathologyBean> listUserPathology(int userId) {
 		
 		List<UserPathologyBean> userPathologyBean = stmt.query(
-				"select u.*,p.*,up.* from users as u,pathology as p,user_pathology as up where up.userid = u.userid and up.pathologyid = p.pathologyid and up.userid = ? and up.isdeleted=0",
+				"select u.*,p.*,up.* from users as u,pathology as p,userpathology as up where up.userid = u.userid and up.pathologyid = p.pathologyid and up.userid = ?",
 				new Object[] { userId }, BeanPropertyRowMapper.newInstance(UserPathologyBean.class));
 
 		return userPathologyBean;

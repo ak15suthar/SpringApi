@@ -49,9 +49,7 @@ public class UserPathologyController {
 		responseBean.setStatus(201);
 
 		return responseBean;
-	}
-
-	
+	}	
 	
 	@PutMapping("/updateUserPathology")
 	public ResponseBean<UserPathologyBean> updateUserPathology(@RequestBody UserPathologyBean userPathologyBean) {
