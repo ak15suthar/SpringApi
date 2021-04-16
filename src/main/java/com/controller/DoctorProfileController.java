@@ -59,42 +59,42 @@ public class DoctorProfileController {
 	@PutMapping("/updateDoctor")
 	public ResponseBean<DoctorProfileBean> updateDoctor(@RequestBody DoctorProfileBean doctorProfileBean){
 		
-		String base64String = doctorProfileBean.getProfile_pic();
-		byte[] btDataFile = null;
-		try {
-			btDataFile = new sun.misc.BASE64Decoder().decodeBuffer(base64String);
-		} catch (IOException e) {
-		
-			e.printStackTrace();
-		}
-		File of = new File(doctorProfileBean.getProfile_pic());
-		FileOutputStream osf;
-		try {
-			osf = new FileOutputStream(of);
-			osf.write(btDataFile);
-			osf.flush();
-		} catch (FileNotFoundException e) {
-		
-			e.printStackTrace();
-		} catch (IOException e) {
-		
-			e.printStackTrace();
-		}
-		
-		// File file = new File("C:\\Users\\royal\\OneDrive\\Pictures\\1.jpg");
-
-		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", "dioefeznp", "api_key",
-				"714131446928359", "api_secret", "g4zLAJ7rtNj5LQq5QfmlGvXpfao"));
-
-		Map uploadResult;
-		try {
-			uploadResult = cloudinary.uploader().upload(of, ObjectUtils.emptyMap());
-			System.out.println(uploadResult);
-			System.out.println(uploadResult.get("url"));
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+//		String base64String = doctorProfileBean.getProfile_pic();
+//		byte[] btDataFile = null;
+//		try {
+//			btDataFile = new sun.misc.BASE64Decoder().decodeBuffer(base64String);
+//		} catch (IOException e) {
+//		
+//			e.printStackTrace();
+//		}
+//		File of = new File(doctorProfileBean.getProfile_pic());
+//		FileOutputStream osf;
+//		try {
+//			osf = new FileOutputStream(of);
+//			osf.write(btDataFile);
+//			osf.flush();
+//		} catch (FileNotFoundException e) {
+//		
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//		
+//			e.printStackTrace();
+//		}
+//		
+//		// File file = new File("C:\\Users\\royal\\OneDrive\\Pictures\\1.jpg");
+//
+//		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", "dioefeznp", "api_key",
+//				"714131446928359", "api_secret", "g4zLAJ7rtNj5LQq5QfmlGvXpfao"));
+//
+//		Map uploadResult;
+//		try {
+//			uploadResult = cloudinary.uploader().upload(of, ObjectUtils.emptyMap());
+//			System.out.println(uploadResult);
+//			System.out.println(uploadResult.get("url"));
+//		} catch (IOException e) {
+//
+//			e.printStackTrace();
+//		}
 
 		
 		System.out.println("pic : "+doctorProfileBean.getProfile_pic());
