@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bean.DoctorProfileBean;
 import com.bean.ResponseBean;
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.dao.DoctorProfileDao;
 
 @CrossOrigin
