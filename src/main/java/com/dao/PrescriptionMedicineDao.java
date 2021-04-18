@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.bean.PrescriptionBean;
 import com.bean.PrescriptionMedicineBean;
 
 @Repository
@@ -23,10 +24,13 @@ public class PrescriptionMedicineDao {
 				prescriptionMedicineBean.getInstructions());
 	}
 
-	public List<PrescriptionMedicineBean> listPrescriptionMedicine() {
-		List<PrescriptionMedicineBean> prescriptionMedicineBean = stmt.query("select * from prescriptionmedicine",
-				BeanPropertyRowMapper.newInstance(PrescriptionMedicineBean.class));
+	public List<PrescriptionMedicineBean> listPrescriptionMedicine(int appointmentId) {
+		
+		List<PrescriptionMedicineBean> prescriptionMedicineBean = stmt.query("select pm.*,m.*,pres.* from prescriptionmedicine as pm,medicine as m,prescription as pres where pm.medicineid = m.medicineid and pm.prescriptionid = pres.prescriptionid and pres.appointmentid = ?",
+		new Object[] {appointmentId},BeanPropertyRowMapper.newInstance(PrescriptionMedicineBean.class));
+		
 		return prescriptionMedicineBean;
+			
 	}
 
 	public PrescriptionMedicineBean getPrescriptionMedicineById(int prescriptionMedicineId) {

@@ -16,8 +16,88 @@ public class AppointmentBean extends PatientProfileBean {
 	String reference;
 	String complain;
 	String clinicName;
-	
-	
+	String statusName;
+	String description;
+	Date prescriptionDate;
+	String generalAdvice;
+	String followupComment;
+	int medicineId;
+	String frequency;
+	String duration;
+	String instructions;
+
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getPrescriptionDate() {
+		return prescriptionDate;
+	}
+
+	public void setPrescriptionDate(Date prescriptionDate) {
+		this.prescriptionDate = prescriptionDate;
+	}
+
+	public String getGeneralAdvice() {
+		return generalAdvice;
+	}
+
+	public void setGeneralAdvice(String generalAdvice) {
+		this.generalAdvice = generalAdvice;
+	}
+
+	public String getFollowupComment() {
+		return followupComment;
+	}
+
+	public void setFollowupComment(String followupComment) {
+		this.followupComment = followupComment;
+	}
+
+	public int getMedicineId() {
+		return medicineId;
+	}
+
+	public void setMedicineId(int medicineId) {
+		this.medicineId = medicineId;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
+	public String getInstructions() {
+		return instructions;
+	}
+
+	public void setInstructions(String instructions) {
+		this.instructions = instructions;
+	}
+
 	public String getClinicName() {
 		return clinicName;
 	}

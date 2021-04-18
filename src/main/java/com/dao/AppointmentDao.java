@@ -86,4 +86,35 @@ public class AppointmentDao {
 
 	}
 
+	public List<AppointmentBean> viewPatientAppointment(int userId) {
+		
+		List<AppointmentBean> appointmentBean = stmt.query("select p.*,a.*,s.*,u.*,cli.*,dp.userid,du.firstname,du.lastname from patientprofile as p,users as du, doctorprofile as dp,clinic as cli,users as u,appointment as a,appointmentstatus as s where not s.appointmentstatusid = 5 and a.doctorprofileid = dp.userid and dp.userid = du.userid and a.patientprofileid = p.patientprofileid and a.clinicid = cli.clinicid and a.appointmentstatusid = s.appointmentstatusid and u.userid = ?"
+		, new Object[] {userId} ,BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		return appointmentBean;
+	}
+	
+	public List<AppointmentBean> pastAppointmentList(int patientProfileId) {
+	
+		List<AppointmentBean> bean = stmt.query("select ap.*,cli.clinicname,pp.*,aps.* from appointment as ap,patientprofile as pp,clinic as cli,appointmentstatus as aps where ap.appointmentstatusid = aps.appointmentstatusid and aps.appointmentstatusid = 6 and ap.patientprofileid = pp.patientprofileid and ap.clinicid = cli.clinicid and pp.patientprofileid = ?",
+		new Object[] {patientProfileId},BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		return bean;
+	}
+	
+	public void doneAppointment(AppointmentBean appointmentBean) {
+
+		stmt.update("update appointment set appointmentstatusid=? where appointmentid=?", appointmentBean.getAppointmentStatusId(), appointmentBean.getAppointmentId());
+	}
+	
+	public AppointmentBean getPatientDetailsById(int appointmentId) {
+	
+		AppointmentBean appointmentBean = null;
+		try {
+			appointmentBean = stmt.queryForObject("select ap.*,pp.*,pres.*,cli.clinicname from appointment as ap,prescription as pres,clinic as cli,patientprofile as pp where ap.patientprofileid=pp.patientprofileid and ap.appointmentid = pres.appointmentid and ap.clinicid = cli.clinicid and ap.appointmentid= ?", new Object[]{appointmentId},
+			BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+		return appointmentBean;
+	}
 }

@@ -17,14 +17,14 @@ public class UserDietDao {
 
 	public void addDietUser(UserDietBean userDietBean) {
 		
-		stmt.update("insert into diet_user(dietid,userid) values(?,?)", userDietBean.getDietId(),
+		stmt.update("insert into userdiet(dietid,userid) values(?,?)", userDietBean.getDietId(),
 				userDietBean.getUserId());
 	}
 
 	public List<UserDietBean> listDietUser(int patientProfileId) {
 		
 		List<UserDietBean> dietUserBean = stmt.query(
-				"select du.*,d.*,pp.* from userdiet as du,patientprofile as pp,diet as d where du.userid = pp.patientprofileid and du.dietid = d.dietid and pp.patientprofileid = 54",
+				"select du.*,d.*,pp.* from userdiet as du,patientprofile as pp,diet as d where du.userid = pp.patientprofileid and du.dietid = d.dietid and pp.patientprofileid = ?",
 				new Object[] { patientProfileId }, BeanPropertyRowMapper.newInstance(UserDietBean.class));
 		return dietUserBean;
 	}

@@ -36,8 +36,8 @@ public class UserDietController {
 	}
 
 	@GetMapping("/listUserDiet/{patientProfileId}")
-	public ResponseBean<List<UserDietBean>> listDietUser(@PathVariable("patientId") int patientId) {
-		List<UserDietBean> dietUserBean = userDietDao.listDietUser(patientId);
+	public ResponseBean<List<UserDietBean>> listDietUser(@PathVariable("patientProfileId") int patientProfileId) {
+		List<UserDietBean> dietUserBean = userDietDao.listDietUser(patientProfileId);
 
 		ResponseBean<List<UserDietBean>> responseBean = new ResponseBean<>();
 

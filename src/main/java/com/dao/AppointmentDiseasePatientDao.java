@@ -21,13 +21,14 @@ public class AppointmentDiseasePatientDao {
 				appointmentDiseasePatientBean.getPatientProfileId());
 	}
 
-	public List<AppointmentDiseasePatientBean> listAppointmentDiseasePatient(int appointmentId) {
-		List<AppointmentDiseasePatientBean> appointmentDiseasePatientBean = stmt.query(
-				"select ap.*,ad.*,d.* from appointmentdiseasepatient as ad,appointment as ap,disease as d join disease using(diseaseid) where ad.diseaseid = d.diseaseid and ad.appointmentid = ap.appointmentid and ap.appointmentid = ?",
-				new Object[] { appointmentId }, BeanPropertyRowMapper.newInstance(AppointmentDiseasePatientBean.class));
+	
+	public List<AppointmentDiseasePatientBean> listAppointmentDiseasePatient(int patientProfileId) {
+		
+		List<AppointmentDiseasePatientBean> appointmentDiseasePatientBean = stmt.query("select ap.*,ad.*,pp.*,d.* from appointment as ap,patientprofile as pp,appointmentdiseasepatient as ad,disease as d where ad.appointmentid = ap.appointmentid and ad.diseaseid = d.diseaseid and ad.patientprofileid = ap.patientprofileid and ap.patientprofileid = pp.patientprofileid and pp.patientprofileid = ?",
+		new Object[] {patientProfileId},BeanPropertyRowMapper.newInstance(AppointmentDiseasePatientBean.class));
 		return appointmentDiseasePatientBean;
 	}
-
+	
 	public AppointmentDiseasePatientBean getAppointmentDiseasePatientById(int appointmentDiseasePatientId) {
 
 		AppointmentDiseasePatientBean appointmentDiseasePatientBean = null;

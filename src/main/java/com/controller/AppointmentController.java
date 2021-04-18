@@ -138,4 +138,58 @@ public class AppointmentController {
 		return responseBean;
 	}
 
+	@GetMapping("/viewPatientAppointment/{userId}")
+	public ResponseBean<List<AppointmentBean>> viewPatientAppointment(@PathVariable("userId") int userId) {
+		ResponseBean<List<AppointmentBean>> response = new ResponseBean<>();
+
+		List<AppointmentBean> appointmentBean = appointmentDao.viewPatientAppointment(userId);
+		
+		response.setData(appointmentBean);
+		response.setMsg("Appointment List Display..!!!!");
+		response.setStatus(201);
+		
+		return response;
+	}
+	
+	@GetMapping("/pastAppointmentList/{patientProfileId}")
+	public ResponseBean<List<AppointmentBean>> pastAppointmentList(@PathVariable("patientid") int patientid){
+		List<AppointmentBean> Bean = appointmentDao.pastAppointmentList(patientid);
+	
+		ResponseBean<List<AppointmentBean>> responseBean = new ResponseBean<>();
+	
+		responseBean.setData(Bean);
+		responseBean.setMsg("User Diet List!!");
+		responseBean.setStatus(200);
+	
+		return responseBean;
+	}
+	
+	@PutMapping("/doneAppointment")
+	public ResponseBean<AppointmentBean> doneAppointment(@RequestBody AppointmentBean appointmentBean) {
+		appointmentDao.doneAppointment(appointmentBean);
+		
+		ResponseBean<AppointmentBean> response = new ResponseBean<>();
+		
+		response.setData(appointmentBean);
+		response.setMsg("Details Submited Successfully..!!");
+		
+		return response;
+	}
+	
+	@GetMapping("/getPatientDetails/{appointmentId}")
+	public ResponseBean<AppointmentBean> getPatientDetails(@PathVariable("appointmentId") int appointmentId) {
+		
+		AppointmentBean appointmentBean = null;
+		
+		//System.out.println("ap"+appointmentBean.getAppointmentDate());
+		appointmentBean = appointmentDao.getPatientDetailsById(appointmentId);
+		
+		ResponseBean<AppointmentBean> responseBean = new ResponseBean<>();
+		
+		responseBean.setData(appointmentBean);
+		responseBean.setMsg("Single Patient Details Return");
+		responseBean.setStatus(200);
+
+		return responseBean;
+	}
 }

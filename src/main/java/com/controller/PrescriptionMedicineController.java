@@ -38,10 +38,10 @@ public class PrescriptionMedicineController {
 //		return responseBean;
 //	}
 	
-	@GetMapping("/listPrescriptionMedicine")
-	public ResponseBean<List<PrescriptionMedicineBean>> listPrescriptionMedicine(){
+	@GetMapping("/listPrescriptionMedicine/{appointmentId}")
+	public ResponseBean<List<PrescriptionMedicineBean>> listPrescriptionMedicine(@PathVariable("appointmentId") int appointmentId){
 		
-		List<PrescriptionMedicineBean> prescriptionMedicineBean = prescriptionMedicineDao.listPrescriptionMedicine();
+		List<PrescriptionMedicineBean> prescriptionMedicineBean = prescriptionMedicineDao.listPrescriptionMedicine(appointmentId);
 		
 		ResponseBean<List<PrescriptionMedicineBean>> responseBean = new ResponseBean<>();
 		
@@ -51,6 +51,7 @@ public class PrescriptionMedicineController {
 		
 		return responseBean;
 	}
+	
 	
 	@GetMapping("/getPrescriptionMedicineById/{prescriptionMedicineId}")
 	public ResponseBean<PrescriptionMedicineBean> getPrescriptionMedicineById(@PathVariable("prescriptionMedicineId") int prescriptionMedicineId){
