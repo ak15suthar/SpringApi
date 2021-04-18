@@ -6,6 +6,7 @@ public class CityBean {
 	String cityName;
 	int stateId;
 	
+	
 	public int getCityId() {
 		return cityId;
 	}
