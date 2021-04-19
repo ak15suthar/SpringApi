@@ -88,7 +88,7 @@ public class AppointmentDao {
 
 	public List<AppointmentBean> viewPatientAppointment(int userId) {
 		
-		List<AppointmentBean> appointmentBean = stmt.query("select p.*,a.*,s.*,u.*,cli.*,dp.userid,du.firstname,du.lastname from patientprofile as p,users as du, doctorprofile as dp,clinic as cli,users as u,appointment as a,appointmentstatus as s where not s.appointmentstatusid = 5 and a.doctorprofileid = dp.userid and dp.userid = du.userid and a.patientprofileid = p.patientprofileid and a.clinicid = cli.clinicid and a.appointmentstatusid = s.appointmentstatusid and u.userid = ?"
+		List<AppointmentBean> appointmentBean = stmt.query("select p.*,a.*,s.*,u.*,cli.*,dp.userid,du.firstname,du.lastname from patientprofile as p,users as du, doctorprofile as dp,clinic as cli,users as u,appointment as a,appointmentstatus as s where not s.appointmentstatusid = 5 and a.doctorprofileid = dp.userid and dp.userid = du.userid and a.patientprofileid = p.patientprofileid and a.clinicid = cli.clinicid and a.appointmentstatusid = s.appointmentstatusid and p.userid = u.userid and u.userid = ?"
 		, new Object[] {userId} ,BeanPropertyRowMapper.newInstance(AppointmentBean.class));
 		return appointmentBean;
 	}
@@ -116,5 +116,41 @@ public class AppointmentDao {
 			e.printStackTrace();
 		}
 		return appointmentBean;
+	}
+	
+	public AppointmentBean getRescheduleReasonByEmail(String email,int appointmentid) {
+		
+		AppointmentBean appointmentBean = null;
+
+		try {
+			appointmentBean = stmt.queryForObject("select ap.*,pp.*,dp.*,du.firstname,du.lastname from appointment as ap,users as du,doctorprofile as dp,patientprofile as pp where ap.doctorprofileid = dp.userid and dp.userid = du.userid and ap.patientprofileid = pp.patientprofileid and pp.email=? and ap.appointmentid=?",
+			new Object[]{email,appointmentid}, BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return appointmentBean;
+	}
+	
+	public AppointmentBean getRejectReasonByEmail(String email, int appointmentid) {
+	
+		AppointmentBean appointmentBean = null;
+
+		try {
+			appointmentBean = stmt.queryForObject("select ap.*,pp.*,dp.*,du.firstname,du.lastname from appointment as ap,users as du,doctorprofile as dp,patientprofile as pp where ap.doctorprofileid = dp.userid and dp.userid = du.userid and ap.patientprofileid = pp.patientprofileid and pp.email=? and ap.appointmentid=?",
+			new Object[]{email,appointmentid}, BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return appointmentBean;
+	}
+	
+	public void updateRescheduleAppointment(AppointmentBean appointmentBean) {
+	
+		stmt.update("update appointment set statusreason=? where appointmentid=?", appointmentBean.getStatusReason(), appointmentBean.getAppointmentId());
+	}
+	
+	public void updateRejectAppointment(AppointmentBean appointmentBean) {
+	
+		stmt.update("update appointment set statusreason=? where appointmentid=?", appointmentBean.getStatusReason(), appointmentBean.getAppointmentId());
 	}
 }

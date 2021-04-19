@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bean.AppointmentBean;
 import com.bean.ResponseBean;
 import com.dao.AppointmentDao;
+import com.services.MailerService;
 
 @CrossOrigin
 @RestController
@@ -23,6 +24,10 @@ public class AppointmentController {
 
 	@Autowired
 	AppointmentDao appointmentDao;
+	
+	@Autowired
+	MailerService mailerService;
+
 
 	@PostMapping("/addAppointment")
 	public ResponseBean<AppointmentBean> addAppointment(@RequestBody AppointmentBean appointmentBean) {
@@ -124,20 +129,89 @@ public class AppointmentController {
 		return responseBean;
 	}
 
-	@PostMapping("/rescheduleAppointment")
-	public ResponseBean<AppointmentBean> rescheduleAppointment(@RequestBody AppointmentBean appointmentBean) {
+//	@PostMapping("/rescheduleAppointment")
+//	public ResponseBean<AppointmentBean> rescheduleAppointment(@RequestBody AppointmentBean appointmentBean) {
+//
+//		appointmentDao.rescheduleAppointment(appointmentBean);
+//
+//		ResponseBean<AppointmentBean> responseBean = new ResponseBean<>();
+//
+//		responseBean.setData(appointmentBean);
+//		responseBean.setMsg("Appointment Reschedule Updated Successfully!!");
+//		responseBean.setStatus(202);
+//
+//		return responseBean;
+//	}
 
-		appointmentDao.rescheduleAppointment(appointmentBean);
-
+	@GetMapping("/rescheduleReason/{email}/{appointmentId}")
+	public ResponseBean<AppointmentBean> sendRescheduleReason(@PathVariable("email") String email,@PathVariable("appointmentId") int appointmentId) {
+		System.out.println("Reschedule Reason call...");
+	
+		AppointmentBean bean = appointmentDao.getRescheduleReasonByEmail(email,appointmentId);
+	
 		ResponseBean<AppointmentBean> responseBean = new ResponseBean<>();
-
-		responseBean.setData(appointmentBean);
-		responseBean.setMsg("Appointment Reschedule Updated Successfully!!");
-		responseBean.setStatus(202);
-
+	
+		responseBean.setData(bean);
+	
+		if (bean == null) {
+			responseBean.setMsg("Invalid Email Address");
+			responseBean.setStatus(201);
+		} else {
+		mailerService.sendRescheduleReason(bean);
+			responseBean.setMsg("Email sent for Reschedule");
+			responseBean.setStatus(200);
+		}
 		return responseBean;
 	}
 
+
+	@GetMapping("/rejectReason/{email}/{appointmentId}")
+	public ResponseBean<AppointmentBean> sendRejectedReason(@PathVariable("email") String email,@PathVariable("appointmentId") int appointmentId) {
+		System.out.println("Rejected Reason call...");
+	
+		AppointmentBean bean = appointmentDao.getRejectReasonByEmail(email,appointmentId);
+	
+		ResponseBean<AppointmentBean> responseBean = new ResponseBean<>();
+	
+		responseBean.setData(bean);
+	
+		if (bean == null) {
+			responseBean.setMsg("Invalid Email Address");
+			responseBean.setStatus(201);
+		} else {
+		mailerService.sendRejectedReason(bean);
+			responseBean.setMsg("Email sent for Rejected");
+			responseBean.setStatus(200);
+		}	
+		return responseBean;
+	}	
+	
+	@PutMapping("/updateRescheduleAppointment")
+	public ResponseBean<AppointmentBean> updateRescheduleAppointment(@RequestBody AppointmentBean appointmentBean) {
+		appointmentDao.updateRescheduleAppointment(appointmentBean);
+	
+		ResponseBean<AppointmentBean> response = new ResponseBean<>();
+		
+		response.setData(appointmentBean);
+		response.setMsg("Appointment Reschedule Successfully..!!");
+		
+		return response;
+	}
+
+	@PutMapping("/updateRejectAppointment")
+	public ResponseBean<AppointmentBean> updateRejectAppointment(@RequestBody AppointmentBean appointmentBean) {
+		System.out.println("s"+appointmentBean.getStatusReason());
+		
+		appointmentDao.updateRejectAppointment(appointmentBean);
+		
+		ResponseBean<AppointmentBean> response = new ResponseBean<>();
+		
+		response.setData(appointmentBean);
+		response.setMsg("Appointment Reject Successfully..!!");
+	
+		return response;
+	}
+	
 	@GetMapping("/viewPatientAppointment/{userId}")
 	public ResponseBean<List<AppointmentBean>> viewPatientAppointment(@PathVariable("userId") int userId) {
 		ResponseBean<List<AppointmentBean>> response = new ResponseBean<>();

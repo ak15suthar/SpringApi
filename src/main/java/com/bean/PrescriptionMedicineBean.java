@@ -4,9 +4,19 @@ public class PrescriptionMedicineBean extends PrescriptionBean {
 	int prescriptionMedicineId;
 	int prescriptionId;
 	int medicineId;
+	String medicineName;
 	String frequency;
 	String duration;
 	String instructions;
+
+	
+	public String getMedicineName() {
+		return medicineName;
+	}
+
+	public void setMedicineName(String medicineName) {
+		this.medicineName = medicineName;
+	}
 
 	public int getPrescriptionMedicineId() {
 		return prescriptionMedicineId;

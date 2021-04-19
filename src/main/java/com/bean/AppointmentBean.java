@@ -25,6 +25,24 @@ public class AppointmentBean extends PatientProfileBean {
 	String frequency;
 	String duration;
 	String instructions;
+	String statusReason;
+	String medicineName;
+	
+	public String getMedicineName() {
+		return medicineName;
+	}
+
+	public void setMedicineName(String medicineName) {
+		this.medicineName = medicineName;
+	}
+
+	public String getStatusReason() {
+		return statusReason;
+	}
+
+	public void setStatusReason(String statusReason) {
+		this.statusReason = statusReason;
+	}
 
 	public String getStatusName() {
 		return statusName;
