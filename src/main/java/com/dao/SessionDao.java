@@ -144,20 +144,21 @@ public class SessionDao {
 		userBean.setRoleId(4);
 
 		int userId = insertUser(patientProfileBean);
-		patientProfileBean.setCityId(0);
+		patientProfileBean.setCityId(1);
 
 		stmt.update(
-				"insert into patientprofile(patientname,gender,phoneno,email,age,profilepic,pincode,userid) values(?,?,?,?,?,?,?,?)",
+				"insert into patientprofile(patientname,gender,phoneno,email,age,profilepic,cityid,pincode,userid) values(?,?,?,?,?,?,?,?,?)",
 				patientProfileBean.getPatientName(), patientProfileBean.getGender(), patientProfileBean.getPhoneNo(),
-				patientProfileBean.getEmail(), patientProfileBean.getAge(), patientProfileBean.getProfilePic(),
+				patientProfileBean.getEmail(), patientProfileBean.getAge(), patientProfileBean.getProfilePic(),patientProfileBean.getCityId(),
 				patientProfileBean.getPincode(), patientProfileBean.getUserId());
 
 	}
 
 	public void adminAddUsers(UserBean userBean) {
-		stmt.update("INSERT INTO users(email, password, firstname, lastname, gender, roleid) VALUES (?, ?, ?, ?, ?, ?)",
+
+		stmt.update("INSERT INTO users(email, password, firstname, lastname, gender, roleid ,status, statusreason) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 				userBean.getEmail(), userBean.getPassword(), userBean.getFirstName(), userBean.getLastName(),
-				userBean.getGender(), userBean.getRoleId());
+				userBean.getGender(), userBean.getRoleId(), userBean.getStatus(), userBean.getStatusReason());
 
 	}
 

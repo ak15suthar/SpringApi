@@ -41,6 +41,13 @@ public class AppointmentDao {
 		return appointmentBean;
 	}
 
+	public List<AppointmentBean> listAllAppointment() {
+		
+		List<AppointmentBean> appointmentBean = stmt.query("select ap.*,pp.*,s.*,dp.*,cli.*,du.firstname,du.lastname,du.userid from appointment as ap,patientprofile as pp,appointmentstatus as s,users as du,clinic as cli,doctorprofile as dp where ap.patientprofileid = pp.patientprofileid and ap.doctorprofileid = dp.userid and dp.userid = du.userid and ap.appointmentstatusid = s.appointmentstatusid and ap.clinicid = cli.clinicid",
+				BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		return appointmentBean;
+	}
+	
 	public List<AppointmentBean> listAppointment(int userId) {
 		List<AppointmentBean> appointmentBean = stmt.query(
 				"select p.*,a.*,s.*,u.*,dp.*,cli.* from patientprofile as p,clinic as cli,doctorprofile as dp,users as u,appointment as a,appointmentstatus as s where a.patientprofileid = p.patientprofileid and a.clinicid = cli.clinicid and a.appointmentstatusid = s.appointmentstatusid and u.userid = a.doctorprofileid and a.doctorprofileid = dp.userid and u.userid = ?",
@@ -152,5 +159,53 @@ public class AppointmentDao {
 	public void updateRejectAppointment(AppointmentBean appointmentBean) {
 	
 		stmt.update("update appointment set statusreason=? where appointmentid=?", appointmentBean.getStatusReason(), appointmentBean.getAppointmentId());
+	}
+	
+	public List<AppointmentBean> doneAppointmentForAllDoctor() {
+		
+		List<AppointmentBean> appointmentBean = stmt.query("select ap.*,u.*,dp.* from doctorprofile as dp,users as u,appointment as ap where u.userid = ap.doctorprofileid and ap.doctorprofileid = dp.userid and ap.appointmentstatusid = 6",
+				BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		
+		return appointmentBean;
+	}
+	
+	public List<AppointmentBean> todayAppointment(int userId) {
+		
+		List<AppointmentBean> appointmentBean = stmt.query("select ap.*,u.*,dp.* from doctorprofile as dp,users as u,appointment as ap where u.userid = ap.doctorprofileid and ap.doctorprofileid = dp.userid and DATE(ap.appointmentcreatedate) = current_date and u.userid = ?",
+				new Object[] {userId} ,BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		
+		return appointmentBean;
+	}
+
+	public List<AppointmentBean> waitForAcceptAppointment(int userId) {
+		
+		List<AppointmentBean> appointmentBean = stmt.query("select ap.*,u.*,dp.* from doctorprofile as dp,users as u,appointment as ap where u.userid = ap.doctorprofileid and ap.doctorprofileid = dp.userid and ap.appointmentstatusid = 4 and u.userid = ?",
+				new Object[] {userId} ,BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+	
+		return appointmentBean;
+	}
+
+	public List<AppointmentBean> acceptAppointment(int userId) {
+		
+		List<AppointmentBean> appointmentBean = stmt.query("select ap.*,u.*,dp.* from doctorprofile as dp,users as u,appointment as ap where u.userid = ap.doctorprofileid and ap.doctorprofileid = dp.userid and ap.appointmentstatusid = 1 and u.userid = ?",
+				new Object[] {userId} ,BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		
+		return appointmentBean;
+	}
+
+	public List<AppointmentBean> rescheduleAppointment(int userId) {
+		
+		List<AppointmentBean> appointmentBean = stmt.query("select ap.*,u.*,dp.* from doctorprofile as dp,users as u,appointment as ap where u.userid = ap.doctorprofileid and ap.doctorprofileid = dp.userid and ap.appointmentstatusid = 2 and u.userid = ?"
+				, new Object[] {userId} ,BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+	
+		return appointmentBean;
+	}
+
+	public List<AppointmentBean> doneAppointment(int userId) {
+		
+		List<AppointmentBean> appointmentBean = stmt.query("select ap.*,u.*,dp.* from doctorprofile as dp,users as u,appointment as ap where u.userid = ap.doctorprofileid and ap.doctorprofileid = dp.userid and ap.appointmentstatusid = 6 and u.userid = ?", 
+				new Object[] {userId} ,BeanPropertyRowMapper.newInstance(AppointmentBean.class));
+		
+		return appointmentBean;
 	}
 }

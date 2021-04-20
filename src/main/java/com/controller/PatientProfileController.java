@@ -80,6 +80,19 @@ public class PatientProfileController {
 		return responseBean;
 	}
 
+	@GetMapping("/getEditUserPatient/{patientProfileId}")
+	public ResponseBean<PatientProfileBean> getEditUserPatient(@PathVariable("patientProfileId") int patientProfileId, PatientProfileBean bean) {
+		ResponseBean<PatientProfileBean> responseBean = new ResponseBean<>();
+		
+		bean = patientProfileDao.getEditUserPatient(patientProfileId);
+		
+		responseBean.setData(bean);
+		responseBean.setMsg("Single User Return");
+		responseBean.setStatus(200);
+		
+		return responseBean;
+	}
+	
 	@PutMapping("/updatePatientProfile")
 	public ResponseBean<PatientProfileBean> updatePatientProfile(@RequestBody PatientProfileBean patientProfileBean) {
 
@@ -94,6 +107,20 @@ public class PatientProfileController {
 		return responseBean;
 	}
 
+	@PutMapping("/updateUserProfile")
+	public ResponseBean<PatientProfileBean> updateUserProfile(@RequestBody PatientProfileBean patientBean) {
+		System.out.println("User Edit Profile => "+patientBean.getLastName());
+		
+		patientProfileDao.updateUserProfile(patientBean);
+		
+		ResponseBean<PatientProfileBean> response = new ResponseBean<>();
+		
+		response.setData(patientBean);
+		response.setMsg("Patient Updated Successfully..!!");
+	
+		return response;
+	}
+	
 	@DeleteMapping("/deletePatientProfile/{patientProfileId}")
 	public ResponseBean<PatientProfileBean> deletePatientProfile(
 			@PathVariable("patientProfileId") int patientProfileId) {

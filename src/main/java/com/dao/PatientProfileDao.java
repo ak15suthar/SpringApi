@@ -55,6 +55,20 @@ public class PatientProfileDao {
 		}
 		return bean;
 	}
+	
+	public PatientProfileBean getEditUserPatient(int patientid) {
+		
+		PatientProfileBean bean = null;
+		
+		try {
+			bean = stmt.queryForObject("select pp.*,pu.*,cu.cityname from patientprofile as pp,users as pu,city as cu where pp.userid=pu.userid and pp.cityid = cu.cityid and pp.patientprofileid=?", new Object[]{patientid},
+			BeanPropertyRowMapper.newInstance(PatientProfileBean.class));
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return bean;
+	}
 
 	public void updatePatientProfile(PatientProfileBean patientProfileBean) {
 		stmt.update(
@@ -63,6 +77,17 @@ public class PatientProfileDao {
 				patientProfileBean.getEmail(), patientProfileBean.getAge(), patientProfileBean.getProfilePic(),
 				patientProfileBean.getCityId(), patientProfileBean.getPincode(),
 				patientProfileBean.getPatientProfileId());
+
+	}
+	
+	public void updateUserProfile(PatientProfileBean patientBean) {
+	
+		stmt.update("update patientprofile set patientname=?,gender=?,phoneno=?,email=?,age=? where patientprofileid=?",
+		patientBean.getPatientName(), patientBean.getGender(), patientBean.getPhoneNo(), patientBean.getEmail(), patientBean.getAge(), patientBean.getPatientProfileId());
+
+		stmt.update(
+		"update users,patientprofile set users.email=?,users.password=?,users.firstname=?,users.lastname=?,users.gender=? FROM users pu,patientprofile pp WHERE pp.userid = pu.userid AND pp.patientprofileid=?",
+		patientBean.getEmail(), patientBean.getPassword(), patientBean.getFirstName(), patientBean.getLastName(), patientBean.getGender(), patientBean.getUserId());
 
 	}
 

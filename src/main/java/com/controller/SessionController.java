@@ -178,6 +178,9 @@ public class SessionController {
 
 		ResponseBean<UserBean> responseBean = new ResponseBean<>();
 
+		userBean.setStatus(UserBean.PENDING);
+		userBean.setStatusReason("Your KYC is pending Our Team Will Contact You Soon..");
+		
 		if (sessionDao.getUserByEmail(userBean.getEmail()) != null) {
 			responseBean.setMsg("Email Already Exist!!");
 			responseBean.setStatus(201);
