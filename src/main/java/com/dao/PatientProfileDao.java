@@ -83,10 +83,10 @@ public class PatientProfileDao {
 	public void updateUserProfile(PatientProfileBean patientBean) {
 	
 		stmt.update("update patientprofile set patientname=?,gender=?,phoneno=?,email=?,age=? where patientprofileid=?",
-		patientBean.getPatientName(), patientBean.getGender(), patientBean.getPhoneNo(), patientBean.getEmail(), patientBean.getAge(), patientBean.getPatientProfileId());
+		patientBean.getFirstName(), patientBean.getGender(), patientBean.getPhoneNo(), patientBean.getEmail(), patientBean.getAge(), patientBean.getPatientProfileId());
 
 		stmt.update(
-		"update users,patientprofile set users.email=?,users.password=?,users.firstname=?,users.lastname=?,users.gender=? FROM users pu,patientprofile pp WHERE pp.userid = pu.userid AND pp.patientprofileid=?",
+		"update users set email=?,password=?,firstname=?,lastname=?,gender=? WHERE userid = ?",
 		patientBean.getEmail(), patientBean.getPassword(), patientBean.getFirstName(), patientBean.getLastName(), patientBean.getGender(), patientBean.getUserId());
 
 	}

@@ -4,19 +4,25 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bean.DoctorProfileBean;
+import com.bean.DoctorProfileImageBean;
 import com.bean.ResponseBean;
 import com.dao.DoctorProfileDao;
 
@@ -53,31 +59,43 @@ public class DoctorProfileController {
 		
 		return responseBean;
 	}
-	
-	@PutMapping("/updateDoctor")
-	public ResponseBean<DoctorProfileBean> updateDoctor(@RequestBody DoctorProfileBean doctorProfileBean){
-		
-//		String base64String = doctorProfileBean.getProfile_pic();
+	     
+	@PostMapping("/updateDoctor")
+	public ResponseBean<DoctorProfileBean> updateDoctor(@RequestBody DoctorProfileImageBean db,@RequestParam("profile") MultipartFile file){
+	//		System.out.println(db.getImg64().getSize());
+//		
+//		String base64String = "";
 //		byte[] btDataFile = null;
-//		try {
-//			btDataFile = new sun.misc.BASE64Decoder().decodeBuffer(base64String);
-//		} catch (IOException e) {
+		
+				
+		try {     
+			byte b[] = file.getBytes();
+			System.out.println(file.getSize());
+			System.out.println(file.getOriginalFilename());
+			File f = new File("D:\\Spring Boot\\HealthAssist\\src\\main\\resources\\static\\images\\"
+					+ file.getOriginalFilename());
+
+			FileOutputStream fos = new FileOutputStream(f);   
+			fos.write(b);
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+//		System.out.println(db.getImg64().getOriginalFilename());
+
+		DoctorProfileBean doctorProfileBean = db.getDoctorProfileBean();
 //		
+//		btDataFile = Base64.getDecoder().decode(base64String);
+//		
+//		try {
+//			FileUtils.writeByteArrayToFile(new File("profile.jpg"), btDataFile);
+//		} catch (IOException e) {
+//			
 //			e.printStackTrace();
 //		}
-//		File of = new File(doctorProfileBean.getProfile_pic());
-//		FileOutputStream osf;
-//		try {
-//			osf = new FileOutputStream(of);
-//			osf.write(btDataFile);
-//			osf.flush();
-//		} catch (FileNotFoundException e) {
 //		
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//		
-//			e.printStackTrace();
-//		}
+//		System.out.println("done..................");
 //		
 //		// File file = new File("C:\\Users\\royal\\OneDrive\\Pictures\\1.jpg");
 //
@@ -94,7 +112,7 @@ public class DoctorProfileController {
 //			e.printStackTrace();
 //		}
 
-		
+		System.out.println("fn : "+doctorProfileBean.getFirstName());
 		System.out.println("pic : "+doctorProfileBean.getProfile_pic());
 		doctorProfileDao.updateDoctor(doctorProfileBean);
 		

@@ -1,5 +1,7 @@
 package com.bean;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class DoctorProfileBean extends UserBean {
 
 
@@ -7,7 +9,7 @@ public class DoctorProfileBean extends UserBean {
 	String qualification;
 	String specialization;
 	int experience_in_year;
-	String profile_pic;
+	MultipartFile profile_pic;
 	String about;
 	String registrationNo;
 	
@@ -35,10 +37,11 @@ public class DoctorProfileBean extends UserBean {
 	public void setExperience_in_year(int experience_in_year) {
 		this.experience_in_year = experience_in_year;
 	}
-	public String getProfile_pic() {
+	
+	public MultipartFile getProfile_pic() {
 		return profile_pic;
 	}
-	public void setProfile_pic(String profile_pic) {
+	public void setProfile_pic(MultipartFile profile_pic) {
 		this.profile_pic = profile_pic;
 	}
 	public String getAbout() {

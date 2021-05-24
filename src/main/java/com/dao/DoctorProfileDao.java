@@ -23,9 +23,14 @@ public class DoctorProfileDao {
 
 		return doctorProfileBean;
 	}
-
+  
+	
+	public void addimg() {
+		stmt.update("insert into dummy values (?)");
+	}
 	public void updateDoctor(DoctorProfileBean doctorProfileBean) {
-
+		
+	
 		stmt.update(
 				"update doctorprofile set qualification=?,specialization=?,experience=?,profilepic=?,about=?,registrationno=? where userid=?",
 				doctorProfileBean.getQualification(), doctorProfileBean.getSpecialization(),
