@@ -62,6 +62,25 @@ public class SessionController {
 		return responseBean;
 	}
 
+	@GetMapping("/printpath")
+	public String printPath() {
+		File f = new File("/app/src\\main\\resources\\static\\images\\");
+		String d[] = f.list();
+		System.out.println("images path");
+		for(String x:d) {
+			System.out.println(x);
+		}
+		 f = new File("/app/src\\main\\resources\\static\\images\\34\\");
+		d  = f.list();
+		System.out.println("34 path");
+		for(String x:d) {
+			System.out.println(x);
+		}
+		
+		
+		return "done";
+	}
+	
 	@PostMapping("/signup")
 	public ResponseBean<UserBean> signup(@RequestBody PatientProfileBean patientProfileBean) {
 
