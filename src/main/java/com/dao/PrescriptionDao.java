@@ -16,6 +16,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.bean.MedBean;
 import com.bean.PrescriptionBean;
 
 @Repository
@@ -63,11 +64,14 @@ public class PrescriptionDao {
 		int prescriptionId = addPrescription(prescriptionBean);
 		
 		prescriptionBean.setPrescriptionId(prescriptionId);
-		stmt.update(
-				"insert into prescriptionmedicine(prescriptionid,medicineid,frequency,duration,instructions) values(?,?,?,?,?)",
-				prescriptionBean.getPrescriptionId(), prescriptionBean.getMedicineId(), prescriptionBean.getFrequency(),
-				prescriptionBean.getDuration(), prescriptionBean.getInstructions());
-
+		for(MedBean medBean:prescriptionBean.getMed()) {
+			stmt.update(
+					"insert into prescriptionmedicine(prescriptionid,medicineid,frequency,duration,instructions) values(?,?,?,?,?)",
+					prescriptionBean.getPrescriptionId(), medBean.getMedicineId(), medBean.getFrequency(),
+					medBean.getDuration(), medBean.getInstructions());
+	
+		}
+		
 	}
 
 	public List<PrescriptionBean> listPrescription() {

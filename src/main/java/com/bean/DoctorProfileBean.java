@@ -12,6 +12,17 @@ public class DoctorProfileBean extends UserBean {
 	MultipartFile profile_pic;
 	String about;
 	String registrationNo;
+
+	String profilePic;
+	
+	
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
 	
 	public int getDoctorProfileId() {
 		return doctorProfileId;

@@ -42,7 +42,7 @@ public class PrescriptionController {
 		
 		System.out.println("doc"+prescriptionBean.getDoctorProfileId());
 		prescriptionDao.addPrescriptionMedicine(prescriptionBean);
-		
+		System.out.println();
 		ResponseBean<PrescriptionBean> responseBean = new ResponseBean<>();
 
 		responseBean.setData(prescriptionBean);

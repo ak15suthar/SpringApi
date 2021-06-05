@@ -1,21 +1,18 @@
 package com.bean;
 
+import java.util.ArrayList;
+
 public class PrescriptionMedicineBean extends PrescriptionBean {
 	int prescriptionMedicineId;
 	int prescriptionId;
-	int medicineId;
-	String medicineName;
-	String frequency;
-	String duration;
-	String instructions;
-
+	ArrayList<MedBean> med;
 	
-	public String getMedicineName() {
-		return medicineName;
+	public ArrayList<MedBean> getMed() {
+		return med;
 	}
 
-	public void setMedicineName(String medicineName) {
-		this.medicineName = medicineName;
+	public void setMed(ArrayList<MedBean> med) {
+		this.med = med;
 	}
 
 	public int getPrescriptionMedicineId() {
@@ -34,35 +31,4 @@ public class PrescriptionMedicineBean extends PrescriptionBean {
 		this.prescriptionId = prescriptionId;
 	}
 
-	public int getMedicineId() {
-		return medicineId;
-	}
-
-	public void setMedicineId(int medicineId) {
-		this.medicineId = medicineId;
-	}
-
-	public String getFrequency() {
-		return frequency;
-	}
-
-	public void setFrequency(String frequency) {
-		this.frequency = frequency;
-	}
-
-	public String getDuration() {
-		return duration;
-	}
-
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
-
-	public String getInstructions() {
-		return instructions;
-	}
-
-	public void setInstructions(String instructions) {
-		this.instructions = instructions;
-	}
-}
+  }

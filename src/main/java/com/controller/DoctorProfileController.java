@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bean.DoctorProfileBean;
-import com.bean.DoctorProfileImageBean;
 import com.bean.ResponseBean;
 import com.dao.DoctorProfileDao;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @CrossOrigin
 @RestController
@@ -32,110 +34,92 @@ public class DoctorProfileController {
 
 	@Autowired
 	DoctorProfileDao doctorProfileDao;
-	
+
 	@GetMapping("/listDoctor")
-	public ResponseBean<List<DoctorProfileBean>> listDoctor(){
+	public ResponseBean<List<DoctorProfileBean>> listDoctor() {
 		List<DoctorProfileBean> doctorProfileBean = doctorProfileDao.listDoctor();
-		
+
 		ResponseBean<List<DoctorProfileBean>> responseBean = new ResponseBean<>();
-		
+
 		responseBean.setData(doctorProfileBean);
 		responseBean.setMsg("Doctor List!!");
 		responseBean.setStatus(200);
-		
+
 		return responseBean;
 	}
-	
+
 	@GetMapping("/getDoctorById/{userId}")
-	public ResponseBean<DoctorProfileBean> getDoctorById(@RequestBody @PathVariable("userId") int userId){
-		
+	public ResponseBean<DoctorProfileBean> getDoctorById(@RequestBody @PathVariable("userId") int userId) {
+
 		DoctorProfileBean doctorProfileBean = doctorProfileDao.getDoctorById(userId);
-		
+
 		ResponseBean<DoctorProfileBean> responseBean = new ResponseBean<>();
-		
+
 		responseBean.setData(doctorProfileBean);
 		responseBean.setMsg("Doctor By Id!!");
 		responseBean.setStatus(200);
-		
+
 		return responseBean;
 	}
-	     
-	@PostMapping("/updateDoctor")
-	public ResponseBean<DoctorProfileBean> updateDoctor(@RequestBody DoctorProfileImageBean db,@RequestParam("profile") MultipartFile file){
-	//		System.out.println(db.getImg64().getSize());
-//		
-//		String base64String = "";
-//		byte[] btDataFile = null;
-		
-				
-		try {     
+
+	@PostMapping(value = "/updateDoctor", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseBean<DoctorProfileBean> updateDoctor(@RequestParam("user") String user,
+			@RequestParam("profile") MultipartFile file) {
+
+		DoctorProfileBean db = null;
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			System.out.println("user ==> " + user);
+			db = mapper.readValue(user, DoctorProfileBean.class);
+			System.out.println("no model exception ");
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
 			byte b[] = file.getBytes();
 			System.out.println(file.getSize());
 			System.out.println(file.getOriginalFilename());
-			File f = new File("D:\\Spring Boot\\HealthAssist\\src\\main\\resources\\static\\images\\"
-					+ file.getOriginalFilename());
-
-			FileOutputStream fos = new FileOutputStream(f);   
+			File dir = new File(
+					"D:\\Spring Boot\\HealthAssist\\src\\main\\resources\\static\\images\\" + db.getUserId() + "\\");
+			dir.mkdirs();
+			File f = new File(dir, file.getOriginalFilename());
+			
+			FileOutputStream fos = new FileOutputStream(f);
 			fos.write(b);
 			fos.close();
+			db.setProfilePic("\\images\\"+db.getUserId()+"\\"+file.getOriginalFilename());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-//		System.out.println(db.getImg64().getOriginalFilename());
 
-		DoctorProfileBean doctorProfileBean = db.getDoctorProfileBean();
-//		
-//		btDataFile = Base64.getDecoder().decode(base64String);
-//		
-//		try {
-//			FileUtils.writeByteArrayToFile(new File("profile.jpg"), btDataFile);
-//		} catch (IOException e) {
-//			
-//			e.printStackTrace();
-//		}
-//		
-//		System.out.println("done..................");
-//		
-//		// File file = new File("C:\\Users\\royal\\OneDrive\\Pictures\\1.jpg");
-//
-//		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name", "dioefeznp", "api_key",
-//				"714131446928359", "api_secret", "g4zLAJ7rtNj5LQq5QfmlGvXpfao"));
-//
-//		Map uploadResult;
-//		try {
-//			uploadResult = cloudinary.uploader().upload(of, ObjectUtils.emptyMap());
-//			System.out.println(uploadResult);
-//			System.out.println(uploadResult.get("url"));
-//		} catch (IOException e) {
-//
-//			e.printStackTrace();
-//		}
+		// DoctorProfileBean doctorProfileBean = db.getDoctorProfileBean();
 
-		System.out.println("fn : "+doctorProfileBean.getFirstName());
-		System.out.println("pic : "+doctorProfileBean.getProfile_pic());
-		doctorProfileDao.updateDoctor(doctorProfileBean);
-		
+		System.out.println("fn : " + db.getFirstName());
+		System.out.println("pic : " + db.getProfilePic());
+		doctorProfileDao.updateDoctor(db);
+
 		ResponseBean<DoctorProfileBean> responseBean = new ResponseBean<>();
-		
-		responseBean.setData(doctorProfileBean);
+
+		responseBean.setData(db);
 		responseBean.setMsg("Doctor Updated!!");
 		responseBean.setStatus(200);
-		
+
 		return responseBean;
 	}
-	
+
 	@DeleteMapping("/deleteDoctor/{userId}")
-	public ResponseBean<DoctorProfileBean> deleteDoctor(@PathVariable("userId") int userId){
+	public ResponseBean<DoctorProfileBean> deleteDoctor(@PathVariable("userId") int userId) {
 		doctorProfileDao.deleteDoctor(userId);
-		
+
 		ResponseBean<DoctorProfileBean> responseBean = new ResponseBean<>();
-		
+
 		responseBean.setMsg("Doctor Deleted!!");
 		responseBean.setStatus(200);
-		
+
 		return responseBean;
 	}
-	
+
 }
-	

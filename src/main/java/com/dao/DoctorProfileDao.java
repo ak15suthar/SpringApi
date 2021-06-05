@@ -34,7 +34,7 @@ public class DoctorProfileDao {
 		stmt.update(
 				"update doctorprofile set qualification=?,specialization=?,experience=?,profilepic=?,about=?,registrationno=? where userid=?",
 				doctorProfileBean.getQualification(), doctorProfileBean.getSpecialization(),
-				doctorProfileBean.getExperience_in_year(), doctorProfileBean.getProfile_pic(),
+				doctorProfileBean.getExperience_in_year(), doctorProfileBean.getProfilePic(),
 				doctorProfileBean.getAbout(), doctorProfileBean.getRegistrationNo(), doctorProfileBean.getUserId());
 
 		stmt.update("update users set email = ?,password = ?,firstname = ?,lastname = ?,gender = ? where userid = ?",

@@ -239,7 +239,7 @@ public class AppointmentController {
 	}
 	
 	@GetMapping("/pastAppointmentList/{patientProfileId}")
-	public ResponseBean<List<AppointmentBean>> pastAppointmentList(@PathVariable("patientid") int patientid){
+	public ResponseBean<List<AppointmentBean>> pastAppointmentList(@PathVariable("patientProfileId") int patientid){
 		List<AppointmentBean> Bean = appointmentDao.pastAppointmentList(patientid);
 	
 		ResponseBean<List<AppointmentBean>> responseBean = new ResponseBean<>();
@@ -269,6 +269,8 @@ public class AppointmentController {
 		AppointmentBean appointmentBean = null;
 		
 		//System.out.println("ap"+appointmentBean.getAppointmentDate());
+		
+		//this method throw error 
 		appointmentBean = appointmentDao.getPatientDetailsById(appointmentId);
 		
 		ResponseBean<AppointmentBean> responseBean = new ResponseBean<>();

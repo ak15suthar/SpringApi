@@ -1,6 +1,7 @@
 package com.bean;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class PrescriptionBean {
 
@@ -12,41 +13,14 @@ public class PrescriptionBean {
 	Date prescriptionDate;
 	String generalAdvice;
 	String followupComment;
-	int medicineId;
-	String frequency;
-	String duration;
-	String instructions;
-
-	public int getMedicineId() {
-		return medicineId;
+	ArrayList<MedBean> med;
+	
+	public ArrayList<MedBean> getMed() {
+		return med;
 	}
 
-	public void setMedicineId(int medicineId) {
-		this.medicineId = medicineId;
-	}
-
-	public String getFrequency() {
-		return frequency;
-	}
-
-	public void setFrequency(String frequency) {
-		this.frequency = frequency;
-	}
-
-	public String getDuration() {
-		return duration;
-	}
-
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
-
-	public String getInstructions() {
-		return instructions;
-	}
-
-	public void setInstructions(String instructions) {
-		this.instructions = instructions;
+	public void setMed(ArrayList<MedBean> med) {
+		this.med = med;
 	}
 
 	public int getPrescriptionId() {
