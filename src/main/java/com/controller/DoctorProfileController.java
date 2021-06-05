@@ -79,18 +79,23 @@ public class DoctorProfileController {
 		}
 
 		try {
+			File t = new File("demo.txt");
+			t.createNewFile();
+
+			System.out.println("demo ==> " + t.getAbsolutePath());
+			
 			byte b[] = file.getBytes();
 			System.out.println(file.getSize());
 			System.out.println(file.getOriginalFilename());
-			File dir = new File(
-				"src\\main\\resources\\static\\images\\" + db.getUserId() + "\\");
+			File dir = new File("src\\main\\resources\\static\\images\\" + db.getUserId() + "\\");
 			dir.mkdirs();
 			File f = new File(dir, file.getOriginalFilename());
-			
+
 			FileOutputStream fos = new FileOutputStream(f);
 			fos.write(b);
 			fos.close();
-			db.setProfilePic("\\images\\"+db.getUserId()+"\\"+file.getOriginalFilename());
+			System.out.println("exists " + f.exists());
+			db.setProfilePic("\\images\\" + db.getUserId() + "\\" + file.getOriginalFilename());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
