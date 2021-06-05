@@ -95,6 +95,8 @@ public class DoctorProfileController {
 			fos.write(b);
 			fos.close();
 			System.out.println("exists " + f.exists());
+			System.out.println("profile path live => "+f.getAbsolutePath());
+			System.out.println("get can path = > "+f.getCanonicalPath());
 			db.setProfilePic("\\images\\" + db.getUserId() + "\\" + file.getOriginalFilename());
 		} catch (Exception e) {
 			e.printStackTrace();
