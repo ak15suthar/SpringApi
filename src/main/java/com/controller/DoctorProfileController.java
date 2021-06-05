@@ -83,7 +83,7 @@ public class DoctorProfileController {
 			System.out.println(file.getSize());
 			System.out.println(file.getOriginalFilename());
 			File dir = new File(
-					"D:\\Spring Boot\\HealthAssist\\src\\main\\resources\\static\\images\\" + db.getUserId() + "\\");
+				"src\\main\\resources\\static\\images\\" + db.getUserId() + "\\");
 			dir.mkdirs();
 			File f = new File(dir, file.getOriginalFilename());
 			
