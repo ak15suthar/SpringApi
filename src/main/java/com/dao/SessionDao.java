@@ -64,7 +64,7 @@ public class SessionDao {
 
 	public void addDoctorProfile(DoctorProfileBean doctorProfileBean) {
 		UserBean userBean = new UserBean();
-		
+
 		doctorProfileBean.setRoleId(3);
 		userBean.setEmail(doctorProfileBean.getEmail());
 		userBean.setPassword(doctorProfileBean.getPassword());
@@ -82,9 +82,8 @@ public class SessionDao {
 		stmt.update(
 				"insert into doctorprofile(userid,qualification,specialization,experience,profilepic,about,registrationno) values (?,?,?,?,?,?,?)",
 				doctorProfileBean.getUserId(), doctorProfileBean.getQualification(),
-				doctorProfileBean.getSpecialization(), doctorProfileBean.getExperience_in_year(),
-				doctorProfileBean.getProfile_pic(), doctorProfileBean.getAbout(),
-				doctorProfileBean.getRegistrationNo());
+				doctorProfileBean.getSpecialization(), doctorProfileBean.getExperience(),
+				doctorProfileBean.getProfilePic(), doctorProfileBean.getAbout(), doctorProfileBean.getRegistrationNo());
 	}
 
 	public List<UserBean> listSignup() {
@@ -96,10 +95,11 @@ public class SessionDao {
 	}
 
 	public void updateSignup(UserBean userBean) {
+		System.out.println("sta"+userBean.getStatus());
 		stmt.update(
-				"update users set email = ?,password = ?,firstname = ?,lastname = ?,gender = ?,roleid = ? where userid = ?",
+				"update users set email = ?,password = ?,firstname = ?,lastname = ?,gender = ?,roleid = ?,status = ? where userid = ?",
 				userBean.getEmail(), userBean.getPassword(), userBean.getFirstName(), userBean.getLastName(),
-				userBean.getGender(), userBean.getRoleId(), userBean.getUserId());
+				userBean.getGender(), userBean.getRoleId(),userBean.getStatus(), userBean.getUserId());
 
 	}
 
@@ -121,16 +121,20 @@ public class SessionDao {
 		return userBean;
 	}
 
-	public UserBean getUserByEmail(String email) {
+	public UserBean  getUserByEmail(String email) {
 		UserBean userBean = null;
-
 		try {
-			userBean = stmt.queryForObject("select * from users where email = ?", new Object[] { email },
-					BeanPropertyRowMapper.newInstance(UserBean.class));
-
+				List<UserBean> users = stmt.query("select * from users where email = ?", new Object[] { email },
+						BeanPropertyRowMapper.newInstance(UserBean.class));
+			if (users.size() != 0) {
+				userBean = users.get(0); 
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			 
 		}
+		System.out.println("dato ==> " + userBean);
+
 		return userBean;
 	}
 
@@ -139,6 +143,13 @@ public class SessionDao {
 
 	}
 
+	public void updateUserStatus(UserBean userBean) {
+		System.out.println("em "+userBean.getEmail());
+		userBean.setStatus(1);
+		stmt.update("update users set status = 1 where email = ?",userBean.getEmail());
+
+	}
+	
 	public void addPatientProfile(PatientProfileBean patientProfileBean) {
 		UserBean userBean = new UserBean();
 		userBean.setRoleId(4);
@@ -149,14 +160,15 @@ public class SessionDao {
 		stmt.update(
 				"insert into patientprofile(patientname,gender,phoneno,email,age,profilepic,cityid,pincode,userid) values(?,?,?,?,?,?,?,?,?)",
 				patientProfileBean.getPatientName(), patientProfileBean.getGender(), patientProfileBean.getPhoneNo(),
-				patientProfileBean.getEmail(), patientProfileBean.getAge(), patientProfileBean.getProfilePic(),patientProfileBean.getCityId(),
-				patientProfileBean.getPincode(), patientProfileBean.getUserId());
+				patientProfileBean.getEmail(), patientProfileBean.getAge(), patientProfileBean.getProfilePic(),
+				patientProfileBean.getCityId(), patientProfileBean.getPincode(), patientProfileBean.getUserId());
 
 	}
 
 	public void adminAddUsers(UserBean userBean) {
 
-		stmt.update("INSERT INTO users(email, password, firstname, lastname, gender, roleid ,status, statusreason) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+		stmt.update(
+				"INSERT INTO users(email, password, firstname, lastname, gender, roleid ,status, statusreason) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 				userBean.getEmail(), userBean.getPassword(), userBean.getFirstName(), userBean.getLastName(),
 				userBean.getGender(), userBean.getRoleId(), userBean.getStatus(), userBean.getStatusReason());
 
@@ -180,13 +192,13 @@ public class SessionDao {
 	}
 
 	public UserBean getUserById(int userId) {
-		
+
 		UserBean userBean = null;
 		try {
 			userBean = stmt.queryForObject("select * from users where userid=?", new Object[] { userId },
 					BeanPropertyRowMapper.newInstance(UserBean.class));
 		} catch (Exception e) {
-		
+
 			e.printStackTrace();
 		}
 		return userBean;

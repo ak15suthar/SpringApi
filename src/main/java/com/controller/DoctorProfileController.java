@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,10 +65,16 @@ public class DoctorProfileController {
 
 	@PostMapping(value = "/updateDoctor", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseBean<DoctorProfileBean> updateDoctor(@RequestParam("user") String user,
-			@RequestParam("profile") MultipartFile file) {
-
+			@RequestParam("profile") Optional<MultipartFile> filex) {
+		System.out.println("init...."+filex);
 		DoctorProfileBean db = null;
+		MultipartFile file = null;
 
+
+		if (filex != null && filex.isPresent()) {
+			file = filex.get();
+
+		}
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			System.out.println("user ==> " + user);
@@ -78,33 +85,36 @@ public class DoctorProfileController {
 			e1.printStackTrace();
 		}
 
-		try {
-			File t = new File("demo.txt");
-			t.createNewFile();
+		if (file != null) {
+			try {
+				File t = new File("demo.txt");
+				t.createNewFile();
 
-			System.out.println("demo ==> " + t.getAbsolutePath());
-			
-			byte b[] = file.getBytes();
-			System.out.println(file.getSize());
-			System.out.println(file.getOriginalFilename());
-			File dir = new File("src\\main\\resources\\static\\images\\" + db.getUserId() + "\\");
-			dir.mkdirs();
-			File f = new File(dir, file.getOriginalFilename());
+				System.out.println("demo ==> " + t.getAbsolutePath());
 
-			FileOutputStream fos = new FileOutputStream(f);
-			fos.write(b);
-			fos.close();
-			System.out.println("exists " + f.exists());
-			System.out.println("profile path live => "+f.getAbsolutePath());
-			System.out.println("get can path = > "+f.getCanonicalPath());
-			db.setProfilePic("\\images\\" + db.getUserId() + "\\" + file.getOriginalFilename());
-		} catch (Exception e) {
-			e.printStackTrace();
+				byte b[] = file.getBytes();
+				System.out.println(file.getSize());
+				System.out.println(file.getOriginalFilename());
+				File dir = new File("src\\main\\resources\\static\\images\\" + db.getUserId() + "\\");
+				dir.mkdirs();
+				File f = new File(dir, file.getOriginalFilename());
+
+				FileOutputStream fos = new FileOutputStream(f);
+				fos.write(b);
+				fos.close();
+				System.out.println("exists " + f.exists());
+				System.out.println("profile path live => " + f.getAbsolutePath());
+				System.out.println("get can path = > " + f.getCanonicalPath());
+				db.setProfilePic("\\images\\" + db.getUserId() + "\\" + file.getOriginalFilename());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
+			//
 		}
-
 		// DoctorProfileBean doctorProfileBean = db.getDoctorProfileBean();
 
-		System.out.println("fn : " + db.getFirstName());
+		System.out.println("fn : " + db.getExperience());
 		System.out.println("pic : " + db.getProfilePic());
 		doctorProfileDao.updateDoctor(db);
 

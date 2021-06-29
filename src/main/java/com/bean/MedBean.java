@@ -3,9 +3,18 @@ package com.bean;
 public class MedBean {
 	
 	int medicineId;
+	String medicineName;
 	String frequency;
 	String instructions;
 	String duration;
+	
+	
+	public String getMedicineName() {
+		return medicineName;
+	}
+	public void setMedicineName(String medicineName) {
+		this.medicineName = medicineName;
+	}
 	public int getMedicineId() {
 		return medicineId;
 	}

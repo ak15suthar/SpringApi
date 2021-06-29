@@ -82,14 +82,37 @@ public class PatientProfileDao {
 	
 	public void updateUserProfile(PatientProfileBean patientBean) {
 	
-		stmt.update("update patientprofile set patientname=?,gender=?,phoneno=?,email=?,age=? where patientprofileid=?",
-		patientBean.getFirstName(), patientBean.getGender(), patientBean.getPhoneNo(), patientBean.getEmail(), patientBean.getAge(), patientBean.getPatientProfileId());
+		stmt.update("update patientprofile set patientname=?,gender=?,phoneno=?,email=?,age=?,profilepic=? where patientprofileid=?",
+		patientBean.getFirstName(), patientBean.getGender(), patientBean.getPhoneNo(), patientBean.getEmail(), patientBean.getAge(),patientBean.getProfilePic(), patientBean.getPatientProfileId());
 
 		stmt.update(
 		"update users set email=?,password=?,firstname=?,lastname=?,gender=? WHERE userid = ?",
 		patientBean.getEmail(), patientBean.getPassword(), patientBean.getFirstName(), patientBean.getLastName(), patientBean.getGender(), patientBean.getUserId());
 
 	}
+	
+	public PatientProfileBean getFamilyMember(int patientid) {
+		// TODO Auto-generated method stub
+		PatientProfileBean bean = null;
+        try {
+            bean = stmt.queryForObject("select *,city.cityname from patientprofile as p join city using(cityid) where p.cityid = cityid and patientprofileid = ?" 
+            		, new Object[]{patientid},
+                    BeanPropertyRowMapper.newInstance(PatientProfileBean.class));
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return bean;
+	}
+
+	public void updateFamilyMember(PatientProfileBean patientBean) {
+	        // TODO Auto-generated method stub
+	        stmt.update("update patientprofile set patientname=?,gender=?,phoneno=?,email=?,age=?,userid=? where patientprofileid=?",
+	        		patientBean.getPatientName(), patientBean.getGender(), patientBean.getPhoneNo(), patientBean.getEmail(),
+	                patientBean.getAge(),patientBean.getUserId(), patientBean.getPatientProfileId());
+	    
+    }
+
 
 	public void deletePatientProfile(int patientProfileId) {
 		stmt.update("delete from patientprofile where patientprofileid = ?", patientProfileId);

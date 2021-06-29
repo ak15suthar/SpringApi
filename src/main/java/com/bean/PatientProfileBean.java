@@ -1,5 +1,7 @@
 package com.bean;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class PatientProfileBean extends UserBean {
 
 	int patientProfileId;
@@ -12,6 +14,15 @@ public class PatientProfileBean extends UserBean {
 	int cityId;
 	int pincode;
 	int userId;
+	MultipartFile profile_pic;
+
+	public MultipartFile getProfile_pic() {
+		return profile_pic;
+	}
+
+	public void setProfile_pic(MultipartFile profile_pic) {
+		this.profile_pic = profile_pic;
+	}
 
 	public int getUserId() {
 		return userId;

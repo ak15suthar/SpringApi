@@ -153,12 +153,12 @@ public class AppointmentDao {
 	
 	public void updateRescheduleAppointment(AppointmentBean appointmentBean) {
 	
-		stmt.update("update appointment set statusreason=? where appointmentid=?", appointmentBean.getStatusReason(), appointmentBean.getAppointmentId());
+		stmt.update("update appointment set statusreason=?, appointmentstatusid=5 where appointmentid=?", appointmentBean.getStatusReason(), appointmentBean.getAppointmentId());
 	}
 	
 	public void updateRejectAppointment(AppointmentBean appointmentBean) {
 	
-		stmt.update("update appointment set statusreason=? where appointmentid=?", appointmentBean.getStatusReason(), appointmentBean.getAppointmentId());
+		stmt.update("update appointment set statusreason=?, appointmentstatusid=2 where appointmentid=?", appointmentBean.getStatusReason(), appointmentBean.getAppointmentId());
 	}
 	
 	public List<AppointmentBean> doneAppointmentForAllDoctor() {

@@ -8,14 +8,22 @@ public class DoctorProfileBean extends UserBean {
 	int doctorProfileId;
 	String qualification;
 	String specialization;
-	int experience_in_year;
+	int experience;
 	MultipartFile profile_pic;
 	String about;
 	String registrationNo;
-
 	String profilePic;
 	
 	
+	
+	public int getExperience() {
+		return experience;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+
 	public String getProfilePic() {
 		return profilePic;
 	}
@@ -42,13 +50,6 @@ public class DoctorProfileBean extends UserBean {
 	public void setSpecialization(String specialization) {
 		this.specialization = specialization;
 	}
-	public int getExperience_in_year() {
-		return experience_in_year;
-	}
-	public void setExperience_in_year(int experience_in_year) {
-		this.experience_in_year = experience_in_year;
-	}
-	
 	public MultipartFile getProfile_pic() {
 		return profile_pic;
 	}

@@ -52,7 +52,7 @@ public class MailerService {
 
 			message.setSubject("HealthAssist Email Verification OTP!!");
 
-			String url = "<a href='https://healthassistangular.herokuapp.com'>Click Here to Verify</a>";
+			String url = "<a href='https://healthassistangular.herokuapp.com/verify-user'>Click Here to Verify</a>";
 
 			message.setContent("<h3>Hello, " + userBean.getFirstName() + " " + userBean.getLastName() + "<h3><br>"
 					+ userBean.getOtp()
@@ -118,9 +118,11 @@ public class MailerService {
 		}
 	}
 
+	
 	public void sendRescheduleReason(AppointmentBean appointmentBean) {
 		String to = appointmentBean.getEmail();// change accordingly
 
+		System.out.println("in mailer....");
 		// Sender's email ID needs to be mentioned
 		String from = "ak15suthar@gmail.com";// change accordingly
 		final String username = "ak15suthar@gmail.com";// change accordingly
@@ -167,10 +169,11 @@ public class MailerService {
 
 		} catch (MessagingException e) {
 		e.printStackTrace();
+		System.out.println("sending fail....");
 		}
 	}
 
-
+	
 	public void sendRejectedReason(AppointmentBean appointmentBean) {
 		String to = appointmentBean.getEmail();// change accordingly
 
@@ -224,6 +227,49 @@ public class MailerService {
 	}
 		
 	public void sendWelcomeMail(UserBean userBean) {
+		String to = userBean.getEmail();// Change Accordingly
+
+		System.out.println("Mail"+to);
+		// Sender's email ID
+		String from = "ak15suthar@gmail.com";
+		final String username = "ak15suthar@gmail.com";
+		final String password = "aknk ztra deel ouwa";
+
+		String host = "smtp.gmail.com";
+
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", "587");
+
+		// Get the session object
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+
+		try {
+			Message message = new MimeMessage(session);
+
+			message.setFrom(new InternetAddress(from));
+
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+
+			message.setSubject("HealthAssist Successfully Verified!!");
+
+			message.setContent("<h3>Hello, " + userBean.getFirstName() + " " + userBean.getLastName() + "<h3><br>"
+					+ "</b> Your account successfully verified!! <br> You can now access HealthAssist" ,
+					"text/html");
+
+			Transport.send(message);
+
+			System.out.println("Sent message successfully...");
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -261,8 +307,7 @@ public class MailerService {
 			message.setSubject("HealthAssist KYC Pending!!");
 
 			message.setContent("<h3>Hello, " + doctorProfileBean.getFirstName() + " " + doctorProfileBean.getLastName() + "<h3><br>"
-					+ doctorProfileBean.getStatus()
-					+ "</b> your KYC is pending our Team will contact you soon!!" ,
+					+ "</b> Your KYC is pending our Team will contact you soon!!" ,
 					"text/html");
 
 			Transport.send(message);

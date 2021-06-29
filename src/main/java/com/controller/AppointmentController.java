@@ -156,21 +156,25 @@ public class AppointmentController {
 //		return responseBean;
 //	}
 
-	@GetMapping("/rescheduleReason/{email}/{appointmentId}")
-	public ResponseBean<AppointmentBean> sendRescheduleReason(@PathVariable("email") String email,@PathVariable("appointmentId") int appointmentId) {
+	@PostMapping("/rescheduleReason")
+	public ResponseBean<AppointmentBean> sendRescheduleReason(@RequestBody  AppointmentBean bean) {
 		System.out.println("Reschedule Reason call...");
-	
-		AppointmentBean bean = appointmentDao.getRescheduleReasonByEmail(email,appointmentId);
-	
-		ResponseBean<AppointmentBean> responseBean = new ResponseBean<>();
-	
+		
+		 appointmentDao.updateRescheduleAppointment(bean);
+		 bean = appointmentDao.getAppointmentById(bean.getAppointmentId());
+			
+		 System.out.println("appid "+bean.getAppointmentId());
+		 System.out.println("status"+bean.getStatusReason());
+		 ResponseBean<AppointmentBean> responseBean = new ResponseBean<>();
+		
 		responseBean.setData(bean);
 	
 		if (bean == null) {
 			responseBean.setMsg("Invalid Email Address");
 			responseBean.setStatus(201);
 		} else {
-		mailerService.sendRescheduleReason(bean);
+			System.out.println("try to send...");
+			mailerService.sendRescheduleReason(bean);
 			responseBean.setMsg("Email sent for Reschedule");
 			responseBean.setStatus(200);
 		}
@@ -178,21 +182,22 @@ public class AppointmentController {
 	}
 
 
-	@GetMapping("/rejectReason/{email}/{appointmentId}")
-	public ResponseBean<AppointmentBean> sendRejectedReason(@PathVariable("email") String email,@PathVariable("appointmentId") int appointmentId) {
+	@PostMapping("/rejectReason")
+	public ResponseBean<AppointmentBean> sendRejectedReason(@RequestBody AppointmentBean appointmentBean) {
 		System.out.println("Rejected Reason call...");
 	
-		AppointmentBean bean = appointmentDao.getRejectReasonByEmail(email,appointmentId);
-	
+		appointmentDao.updateRejectAppointment(appointmentBean);
+		appointmentBean = appointmentDao.getAppointmentById(appointmentBean.getAppointmentId());
+		
 		ResponseBean<AppointmentBean> responseBean = new ResponseBean<>();
 	
-		responseBean.setData(bean);
-	
-		if (bean == null) {
+		responseBean.setData(appointmentBean);
+		System.out.println("app"+appointmentBean.getPatientName());
+		if (appointmentBean == null) {
 			responseBean.setMsg("Invalid Email Address");
 			responseBean.setStatus(201);
 		} else {
-		mailerService.sendRejectedReason(bean);
+		mailerService.sendRejectedReason(appointmentBean);
 			responseBean.setMsg("Email sent for Rejected");
 			responseBean.setStatus(200);
 		}	
